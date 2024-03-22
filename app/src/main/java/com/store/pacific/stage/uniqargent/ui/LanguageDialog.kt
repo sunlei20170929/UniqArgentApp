@@ -81,5 +81,5 @@ fun LanguageDialog(modifier: Modifier,
 @Preview
 @Composable
 fun showLanguageDialog(){
-    LanguageDialog(modifier = Modifier, onLanguageSelected = { }, onDismissRequest = {})
+//    LanguageDialog(modifier = Modifier, onLanguageSelected = { }, onDismissRequest = {})
 }
