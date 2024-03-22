@@ -32,7 +32,7 @@ class ResponseCallAdapter<T>(
                 }
             )
         }.catch {
-            println("update flow exception")
+            println(" flow exception")
         }
     }
 

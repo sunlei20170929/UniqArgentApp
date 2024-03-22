@@ -30,21 +30,13 @@ object NetworkService {
             return@addInterceptor chain.proceed(requestbuild.build())
         }
 
-    private val retrofit = Retrofit.Builder()
+    val retrofit = Retrofit.Builder()
         .baseUrl(getUrl())
         .client(okHttpClient.build())
 //        .addCallAdapterFactory(FlowCallAdapterFactory.create())
 //        .addCallAdapterFactory(LiveDataCallAdapterFactory())
         .addConverterFactory(GsonConverterFactory.create())
-
         .build()
-
-//    private val romUpdateService: RomUpdateCheck = retrofit.create(RomUpdateCheck::class.java)
-//
-//    fun romUpdateCheck(arg0:Map<String,String>,arg1:String,arg2:String): Flow<ResponseBody> {
-//        return romUpdateService.getRomInfo(arg0,arg1,arg2,"0")
-//    }
-
 
 }
 

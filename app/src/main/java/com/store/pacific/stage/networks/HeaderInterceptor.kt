@@ -1,9 +1,25 @@
 package com.store.pacific.stage.networks
 
+import com.google.gson.Gson
 import okhttp3.Interceptor
 import okhttp3.Response
 import org.json.JSONObject
 
+
+data class Header(
+    val id:String,
+    val token:String,
+    val userId:String,
+    val currentUserId:String,
+    val channel:String,
+    val versionName:String,
+    val versionCode:String,
+    val device_Id:String,
+    val imei:String,
+    val mulFlag:String,
+    val vFlag:String,
+    val deviceId:String
+)
 class HeaderInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request().newBuilder()
@@ -27,7 +43,14 @@ class HeaderInterceptor : Interceptor {
 
     var _header = JSONObject()
 
+
     fun setHeader(headerjson:JSONObject){
         _header = headerjson
     }
+
+    fun setHeaderObj(header:Header){
+        val gson = Gson()
+        setHeader(JSONObject(gson.toJson(header)))
+    }
 }
+
