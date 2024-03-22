@@ -1,5 +1,7 @@
 package com.store.pacific.stage.uniqargent.ui
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 
+@RequiresApi(Build.VERSION_CODES.N)
 @Composable
 fun LanguageDialog(modifier: Modifier,
                    onLanguageSelected:(Int)->Unit,
@@ -44,22 +47,28 @@ fun LanguageDialog(modifier: Modifier,
             ),
             modifier = Modifier.wrapContentSize(align = Alignment.Center)
         ){
-            val options = listOf("English","Francais")
+            val options = mapOf(1 to "English",2 to "Francais")
             var selectedOption by remember { mutableStateOf(options[0])}
 
             Column{
-                options.forEach { text->
+                options.forEach{
                     Row(
                         Modifier
                             .fillMaxWidth()
                             .padding(10.dp),
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
+                        horizontalArrangement = Arrangement.Center,
+
                     ) {
-                        Text(text = text, style = MaterialTheme.typography.bodyMedium,
-                            modifier = Modifier.padding(start = 8.dp))
+                        Text(text = it.value, style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(start = 8.dp).weight(2f))
                         Spacer(Modifier.width(40.dp))
-                        RadioButton(selected = (text== selectedOption), onClick = { selectedOption =text}, colors = RadioButtonDefaults.colors(),)
+                        RadioButton(selected = (it.value== selectedOption),
+                            onClick = {selectedOption =it.value
+                                onLanguageSelected(it.key)
+                                onDismissRequest()
+                                      },
+                            colors = RadioButtonDefaults.colors(),)
                     }
 
                 }

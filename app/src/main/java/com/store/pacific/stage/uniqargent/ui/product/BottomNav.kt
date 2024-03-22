@@ -1,5 +1,7 @@
 package com.store.pacific.stage.uniqargent.ui.product
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation
@@ -10,9 +12,12 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,6 +33,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.store.pacific.stage.MainViewModel
 import com.store.pacific.stage.R
+import com.store.pacific.stage.uniqargent.ui.LanguageDialog
+import kotlinx.coroutines.launch
 
 
 sealed class BottomItem(
@@ -56,10 +63,27 @@ sealed class BottomItem(
 }
 val mBottomTabItems = listOf(BottomItem.Home,BottomItem.Got,BottomItem.Mine)
 
+
+@RequiresApi(Build.VERSION_CODES.N)
 @Composable
 fun MainNav(modifier:Modifier, topPadding: Dp = 0.dp, mainViewModel: MainViewModel){
     val navController  = rememberNavController()
     var bottomSelectedState by remember { mutableStateOf(0) }
+
+    val languageState by remember { mutableStateOf( mainViewModel.languageSetting)}
+    var openAlertDialog = remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
+    if(languageState==0 && !openAlertDialog.value){
+        LanguageDialog(modifier = Modifier,
+            onLanguageSelected = {
+                scope.launch {
+                    mainViewModel.setLanguage(it)
+                }
+
+        }, onDismissRequest = {
+            openAlertDialog.value = true
+            })
+    }
     Scaffold(
         topBar = {  },
         bottomBar = { BottomBarWidget(bottomSelectedState, mBottomTabItems) {
@@ -68,9 +92,6 @@ fun MainNav(modifier:Modifier, topPadding: Dp = 0.dp, mainViewModel: MainViewMod
             navController.navigate(mBottomTabItems[it].route)
             }
         }){
-
-
-
         NavHost(navController,startDestination = BottomItem.Home.route, modifier = Modifier.padding(it.calculateBottomPadding())) {
             composable(BottomItem.Home.route) {
 //                HomePage()
