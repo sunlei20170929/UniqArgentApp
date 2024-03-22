@@ -63,22 +63,21 @@ fun MainNav(modifier:Modifier, topPadding: Dp = 0.dp, mainViewModel: MainViewMod
     Scaffold(
         topBar = {  },
         bottomBar = { BottomBarWidget(bottomSelectedState, mBottomTabItems) {
-                bottomSelectedState = it
+            bottomSelectedState = it
             navController.popBackStack()
             navController.navigate(mBottomTabItems[it].route)
             }
         }){
 
+
+
         NavHost(navController,startDestination = BottomItem.Home.route, modifier = Modifier.padding(it.calculateBottomPadding())) {
             composable(BottomItem.Home.route) {
-
 //                HomePage()
             }
-
             composable(BottomItem.Got.route) {
 //                RecPage()
             }
-
             composable(BottomItem.Mine.route) {
                 // MinePage()
             }
