@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.store.pacific.stage.MainViewModel
 import com.store.pacific.stage.R
 
 
@@ -55,7 +56,7 @@ sealed class BottomItem(
 val mBottomTabItems = listOf(BottomItem.Home,BottomItem.Got,BottomItem.Mine)
 
 @Composable
-fun MainNav(modifier:Modifier){
+fun MainNav(modifier:Modifier, mainViewModel: MainViewModel){
     val navController  = rememberNavController()
     var bottomSelectedState by remember { mutableStateOf(0) }
     Scaffold(
