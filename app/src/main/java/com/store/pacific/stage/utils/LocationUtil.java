@@ -1,20 +1,34 @@
 package com.store.pacific.stage.utils;
 
+import static android.content.Context.MODE_PRIVATE;
+import static android.os.Build.VERSION.SDK;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationRequest;
+import android.location.LocationManager;
+
+import android.os.Build;
 import android.os.Looper;
+
+import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.location.SettingsClient;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -41,44 +55,44 @@ public class LocationUtil {
         init();
     }
 
-    public static GoogleLocation getLocalLocation(Context context) {
-        GoogleLocation googleLocation = new GoogleLocation();
-
-//        定位取值获取优先级
-//        1.LocalLocationBySDK
-//        2.LocalLocationByService
-//        3.LocalLocationByLast
+//    public static GoogleLocation getLocalLocation(Context context) {
+//        GoogleLocation googleLocation = new GoogleLocation();
 //
-//        例如，优选取值1的结果、1为空取值2、2为空取值3
+//////        定位取值获取优先级
+//////        1.LocalLocationBySDK
+//////        2.LocalLocationByService
+//////        3.LocalLocationByLast
+//////
+//////        例如，优选取值1的结果、1为空取值2、2为空取值3
+////
+////        googleLocation=getLocalLocationBySDK()?saveLocalLocationByService()?saveLocalLocationByLast();
+//
+//        return googleLocation;
+//    }
 
-        googleLocation=getLocalLocationBySDK()?saveLocalLocationByService()?saveLocalLocationByLast();
+//    public static void saveLocalLocationBySDK(Context context, GoogleLocation googleLocation) {
+////        SharedPreferences setting_info = context.getSharedPreferences(SDK, MODE_PRIVATE);
+////        SharedPreferences.Editor edit = setting_info.edit();
+////        edit.putString("googleLatitude", googleLocation.getGoogleLatitude());
+////        edit.putString("googleLongitude", googleLocation.getGoogleLongitude());
+////        edit.commit();
+//    }
 
-        return googleLocation;
-    }
+//    public static void saveLocalLocationByService(Context context, GoogleLocation googleLocation) {
+////        SharedPreferences setting_info = context.getSharedPreferences(Service, MODE_PRIVATE);
+////        SharedPreferences.Editor edit = setting_info.edit();
+////        edit.putString("googleLatitude", googleLocation.getGoogleLatitude());
+////        edit.putString("googleLongitude", googleLocation.getGoogleLongitude());
+////        edit.commit();
+//    }
 
-    public static void saveLocalLocationBySDK(Context context, GoogleLocation googleLocation) {
-        SharedPreferences setting_info = context.getSharedPreferences(SDK, MODE_PRIVATE);
-        SharedPreferences.Editor edit = setting_info.edit();
-        edit.putString("googleLatitude", googleLocation.getGoogleLatitude());
-        edit.putString("googleLongitude", googleLocation.getGoogleLongitude());
-        edit.commit();
-    }
-
-    public static void saveLocalLocationByService(Context context, GoogleLocation googleLocation) {
-        SharedPreferences setting_info = context.getSharedPreferences(Service, MODE_PRIVATE);
-        SharedPreferences.Editor edit = setting_info.edit();
-        edit.putString("googleLatitude", googleLocation.getGoogleLatitude());
-        edit.putString("googleLongitude", googleLocation.getGoogleLongitude());
-        edit.commit();
-    }
-
-    public static void saveLocalLocationByLast(Context context, GoogleLocation googleLocation) {
-        SharedPreferences setting_info = context.getSharedPreferences(Last, MODE_PRIVATE);
-        SharedPreferences.Editor edit = setting_info.edit();
-        edit.putString("googleLatitude", googleLocation.getGoogleLatitude());
-        edit.putString("googleLongitude", googleLocation.getGoogleLongitude());
-        edit.commit();
-    }
+//    public static void saveLocalLocationByLast(Context context, GoogleLocation googleLocation) {
+////        SharedPreferences setting_info = context.getSharedPreferences(Last, MODE_PRIVATE);
+////        SharedPreferences.Editor edit = setting_info.edit();
+////        edit.putString("googleLatitude", googleLocation.getGoogleLatitude());
+////        edit.putString("googleLongitude", googleLocation.getGoogleLongitude());
+////        edit.commit();
+//    }
 
     public static void getSystemLocation(final Context context) {
         new Thread() {
@@ -94,10 +108,10 @@ public class LocationUtil {
                         double lat = location.getLatitude();
                         double lng = location.getLongitude();
                         if (String.valueOf(lng).length() > 6) {
-                            GoogleLocation googleLocation = new GoogleLocation();
-                            googleLocation.setGoogleLatitude(location.getLatitude() + "");
-                            googleLocation.setGoogleLongitude(location.getLongitude() + "");
-                            saveLocalLocationByService(context, googleLocation);
+//                            GoogleLocation googleLocation = new GoogleLocation();
+//                            googleLocation.setGoogleLatitude(location.getLatitude() + "");
+//                            googleLocation.setGoogleLongitude(location.getLongitude() + "");
+//                            saveLocalLocationByService(context, googleLocation);
                         }
 
 
@@ -135,10 +149,10 @@ public class LocationUtil {
                         public void onSuccess(Location location) {
                             try {
                                 if (location != null) {
-                                    GoogleLocation googleLocation = new GoogleLocation();
-                                    googleLocation.setGoogleLatitude(location.getLatitude() + "");
-                                    googleLocation.setGoogleLongitude(location.getLongitude() + "");
-                                    saveLocalLocationByLast(context, googleLocation);
+//                                    GoogleLocation googleLocation = new GoogleLocation();
+//                                    googleLocation.setGoogleLatitude(location.getLatitude() + "");
+//                                    googleLocation.setGoogleLongitude(location.getLongitude() + "");
+//                                    saveLocalLocationByLast(context, googleLocation);
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -162,23 +176,26 @@ public class LocationUtil {
                 super.onLocationResult(locationResult);
                 mCurrentLocation = locationResult.getLastLocation();
                 stopLocationUpdates();
-                GoogleLocation googleLocation = new GoogleLocation();
-                googleLocation.setGoogleLatitude(mCurrentLocation.getLatitude() + "");
-                googleLocation.setGoogleLongitude(mCurrentLocation.getLongitude() + "");
-                saveLocalLocationBySDK(context, googleLocation);
-                if (locationCallBack != null) {
-                    locationCallBack.onLocationResult(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
-                }
+//                GoogleLocation googleLocation = new GoogleLocation();
+//                googleLocation.setGoogleLatitude(mCurrentLocation.getLatitude() + "");
+//                googleLocation.setGoogleLongitude(mCurrentLocation.getLongitude() + "");
+//                saveLocalLocationBySDK(context, googleLocation);
+//                if (locationCallBack != null) {
+//                    locationCallBack.onLocationResult(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+//                }
 
             }
         };
     }
 
     private void createLocationRequest() {
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
-        mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            mLocationRequest = new LocationRequest();
+            mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
+            mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
+            mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        }
+
     }
 
     private void buildLocationSettingsRequest() {

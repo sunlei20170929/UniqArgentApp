@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.store.pacific.stage.ui.theme.UniqArgentTheme
+import com.store.pacific.stage.uniqargent.ui.product.MainNav
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -33,17 +34,20 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+//    Text(
+//        text = "Hello $name!",
+//        modifier = modifier
+//    )
+    MainNav(modifier)
 }
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     UniqArgentTheme {
-        Greeting("Android")
+//        Greeting("Android")
+        MainNav(Modifier)
     }
 }
 
+enum class SplashState { Shown, Completed }
