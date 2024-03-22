@@ -20,6 +20,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
@@ -56,11 +57,11 @@ sealed class BottomItem(
 val mBottomTabItems = listOf(BottomItem.Home,BottomItem.Got,BottomItem.Mine)
 
 @Composable
-fun MainNav(modifier:Modifier, mainViewModel: MainViewModel){
+fun MainNav(modifier:Modifier, topPadding: Dp = 0.dp, mainViewModel: MainViewModel){
     val navController  = rememberNavController()
     var bottomSelectedState by remember { mutableStateOf(0) }
     Scaffold(
-        topBar = { TopBarWidget() },
+        topBar = {  },
         bottomBar = { BottomBarWidget(bottomSelectedState, mBottomTabItems) {
                 bottomSelectedState = it
             navController.popBackStack()

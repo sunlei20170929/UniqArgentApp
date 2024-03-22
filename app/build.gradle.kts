@@ -95,5 +95,7 @@ dependencies {
 
     //location
     implementation ("com.google.android.gms:play-services-location:17.0.0")
+    //splash
+    implementation("androidx.core:core-splashscreen:1.0.0")
 
 }

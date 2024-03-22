@@ -5,20 +5,24 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -35,7 +39,8 @@ class MainActivity : ComponentActivity() {
             UniqArgentTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.windowInsetsPadding(
+                        WindowInsets.navigationBars.only(WindowInsetsSides.Start + WindowInsetsSides.End)),
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val mainViewModel = hiltViewModel<MainViewModel>()
@@ -58,13 +63,14 @@ class MainActivity : ComponentActivity() {
                     }
 
                     Box {
-                        FlashScreen(Modifier,
+                        FlashScreen(Modifier.alpha(splashAlpha),
                             onTimeout={
                                   transitionState.targetState = SplashState.Completed
                                   mainViewModel.shownSplash.value = SplashState.Completed
 
                             })
-                        MainNav(Modifier,mainViewModel)
+                        MainNav(Modifier.alpha(contentAlpha),
+                            topPadding = contentTopPadding,mainViewModel)
                     }
 
                 }
