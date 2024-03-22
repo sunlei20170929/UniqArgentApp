@@ -56,16 +56,20 @@ val mBottomTabItems = listOf(BottomItem.Home,BottomItem.Got,BottomItem.Mine)
 
 @Composable
 fun MainNav(modifier:Modifier){
+    val navController  = rememberNavController()
     var bottomSelectedState by remember { mutableStateOf(0) }
     Scaffold(
         topBar = { TopBarWidget() },
         bottomBar = { BottomBarWidget(bottomSelectedState, mBottomTabItems) {
                 bottomSelectedState = it
+            navController.popBackStack()
+            navController.navigate(mBottomTabItems[it].route)
             }
         }){
-        val navController  = rememberNavController()
+
         NavHost(navController,startDestination = BottomItem.Home.route, modifier = Modifier.padding(it.calculateBottomPadding())) {
             composable(BottomItem.Home.route) {
+
 //                HomePage()
             }
 
