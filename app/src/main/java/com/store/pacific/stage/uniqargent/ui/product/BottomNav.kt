@@ -1,6 +1,5 @@
 package com.store.pacific.stage.uniqargent.ui.product
 
-import android.util.Log
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation
@@ -113,13 +112,11 @@ fun BottomBarWidget(
                     val labelStyle = if (selectedPosition == index) {
                         TextStyle(
                             fontWeight = FontWeight.Medium,
-
                             fontSize = 11.sp
                         )
                     } else {
                         TextStyle(
                             fontWeight = FontWeight.Normal,
-
                             fontSize = 11.sp
                         )
                     }
@@ -138,7 +135,7 @@ fun BottomBarWidget(
 fun TopBarWidget() {
     TopAppBar(title = {
         Text(
-            text = "微信",
+            text = "UniqArgent",
             style = TextStyle(
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Medium,

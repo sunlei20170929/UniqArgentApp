@@ -70,23 +70,30 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
+    //retrofit
     implementation ("com.google.code.gson:gson:2.10.1")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.5")
 
+    //webview
     implementation ("com.google.accompanist:accompanist-webview:0.30.1")
 
+    //hilt
     implementation("com.google.dagger:hilt-android:2.44.2")
     implementation("androidx.hilt:hilt-navigation-fragment:1.0.0")
     kapt("com.google.dagger:hilt-android-compiler:2.44.2")
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 
+    //workmanager
     val work_version = "2.9.0"
     implementation("androidx.work:work-runtime-ktx:$work_version")
     implementation ("androidx.work:work-multiprocess:$work_version")
 
+    //coil
     implementation("io.coil-kt:coil:1.3.2")
 
+    //location
+    implementation ("com.google.android.gms:play-services-location:17.0.0")
 
 }
