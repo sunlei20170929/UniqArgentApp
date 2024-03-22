@@ -23,6 +23,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.store.pacific.stage.R
 
 
@@ -53,7 +56,7 @@ sealed class BottomItem(
 val mBottomTabItems = listOf(BottomItem.Home,BottomItem.Got,BottomItem.Mine)
 
 @Composable
-fun BottomNav(modifier:Modifier){
+fun MainNav(modifier:Modifier){
     var bottomSelectedState by remember { mutableStateOf(0) }
     Scaffold(
         topBar = { TopBarWidget() },
@@ -61,7 +64,20 @@ fun BottomNav(modifier:Modifier){
                 bottomSelectedState = it
             }
         }){
-        Log.d("bottom padding", it.calculateBottomPadding().toString())
+        val navController  = rememberNavController()
+        NavHost(navController,startDestination = BottomItem.Home.route, modifier = Modifier.padding(it.calculateBottomPadding())) {
+            composable(BottomItem.Home.route) {
+//                HomePage()
+            }
+
+            composable(BottomItem.Got.route) {
+//                RecPage()
+            }
+
+            composable(BottomItem.Mine.route) {
+                // MinePage()
+            }
+        }
     }
 
 }
