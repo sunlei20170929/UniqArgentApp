@@ -29,8 +29,9 @@ object NetworkService {
             requestbuild.addHeader("Content-Type", "application/json")
             return@addInterceptor chain.proceed(requestbuild.build())
         }
+        .addInterceptor(HeaderInterceptor())
 
-    val retrofit = Retrofit.Builder()
+    val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl(getUrl())
         .client(okHttpClient.build())
 //        .addCallAdapterFactory(FlowCallAdapterFactory.create())
