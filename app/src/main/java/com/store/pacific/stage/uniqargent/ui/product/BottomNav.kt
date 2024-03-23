@@ -89,7 +89,7 @@ fun MainNav(modifier:Modifier, topPadding: Dp = 0.dp, mainViewModel: MainViewMod
             })
     }
 
-    if( !reminder){
+    if(!reminder){
         WebviewPage(Modifier, onAccept = {
             mainViewModel.onAcceptReminder()
         }, onRefuse = {
