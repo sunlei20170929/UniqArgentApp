@@ -5,43 +5,36 @@ import android.app.LocaleManager
 import android.os.Build
 import android.os.LocaleList
 import androidx.annotation.RequiresApi
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.store.pacific.stage.repository.UniqRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.stateIn
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.Locale
 import javax.inject.Inject
 
-
+@HiltViewModel
 class MainViewModel @Inject constructor(private val savedStateHandle: SavedStateHandle,
-                                        private val application: Application,
-    private val repo:UniqRepository
+                                        private val application: Application
 ): AndroidViewModel(application){
 
     private val LANGUAGE = "language"
+    private val REMINDER = "reminder"
 
     val shownSplash = mutableStateOf(SplashState.Shown)
 
     var languageSetting: Int? = if(savedStateHandle.get<Int>(LANGUAGE)==null)  0
     else savedStateHandle[LANGUAGE]
 
+    var hasRead:Boolean = savedStateHandle.get<Boolean>(REMINDER) == true
+
+
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     fun setLanguage(lan:Int){
         viewModelScope.launch {
             languageSetting = lan
-            savedStateHandle.set(LANGUAGE,languageSetting)
+            savedStateHandle[LANGUAGE] = languageSetting
             when(lan){
                 1->{
                     application.applicationContext.getSystemService(LocaleManager::class.java
@@ -54,16 +47,19 @@ class MainViewModel @Inject constructor(private val savedStateHandle: SavedState
                 }
             }
         }
-
     }
 
+    fun onAcceptReminder(){
+        hasRead = true
+        savedStateHandle[REMINDER] = true
+    }
 
-    private val _data = MutableStateFlow<String>("")
-    val data: StateFlow<String> = _data
-    fun fetchData(num:String) {
-        viewModelScope.launch {
-            // 模拟从网络或数据库中获取数据 delay(1000)
-            _data.value = repo.getSmscode(num).toString()
-        }
+    fun onRefuseReminder(){
+        hasRead = true
+        savedStateHandle[REMINDER] = false
+    }
+
+    fun onAcceptRemider() {
+        TODO("Not yet implemented")
     }
 }

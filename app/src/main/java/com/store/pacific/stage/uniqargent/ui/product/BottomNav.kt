@@ -34,6 +34,7 @@ import androidx.navigation.compose.rememberNavController
 import com.store.pacific.stage.MainViewModel
 import com.store.pacific.stage.R
 import com.store.pacific.stage.uniqargent.ui.LanguageDialog
+import com.store.pacific.stage.uniqargent.ui.WebviewPage
 import kotlinx.coroutines.launch
 
 
@@ -64,7 +65,8 @@ sealed class BottomItem(
 val mBottomTabItems = listOf(BottomItem.Home,BottomItem.Got,BottomItem.Mine)
 
 
-@RequiresApi(Build.VERSION_CODES.N)
+
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun MainNav(modifier:Modifier, topPadding: Dp = 0.dp, mainViewModel: MainViewModel){
     val navController  = rememberNavController()
@@ -72,6 +74,8 @@ fun MainNav(modifier:Modifier, topPadding: Dp = 0.dp, mainViewModel: MainViewMod
 
     val languageState by remember { mutableStateOf( mainViewModel.languageSetting)}
     var openAlertDialog = remember { mutableStateOf(false) }
+
+    val reminder by remember { mutableStateOf(mainViewModel.hasRead) }
     val scope = rememberCoroutineScope()
     if(languageState==0 && !openAlertDialog.value){
         LanguageDialog(modifier = Modifier,
@@ -84,27 +88,36 @@ fun MainNav(modifier:Modifier, topPadding: Dp = 0.dp, mainViewModel: MainViewMod
             openAlertDialog.value = true
             })
     }
-    Scaffold(
-        topBar = {  },
-        bottomBar = { BottomBarWidget(bottomSelectedState, mBottomTabItems) {
-            bottomSelectedState = it
-            navController.popBackStack()
-            navController.navigate(mBottomTabItems[it].route)
+
+    if(!reminder){
+        WebviewPage(Modifier, onAccept = {
+            mainViewModel.onAcceptReminder()
+        }, onRefuse = {
+            mainViewModel.onRefuseReminder()
+        })
+    }else{
+        Scaffold(
+            topBar = {  },
+            bottomBar = { BottomBarWidget(bottomSelectedState, mBottomTabItems) {
+                bottomSelectedState = it
+                navController.popBackStack()
+                navController.navigate(mBottomTabItems[it].route)
             }
-        }){
-        NavHost(navController,startDestination = BottomItem.Home.route, modifier = Modifier.padding(it.calculateBottomPadding())) {
-            composable(BottomItem.Home.route) {
-                HomePage(Modifier,mainViewModel)
-            }
-            composable(BottomItem.Got.route) {
+            }){
+            NavHost(navController,startDestination = BottomItem.Home.route, modifier = Modifier.padding(it.calculateBottomPadding())) {
+                composable(BottomItem.Home.route) {
+//                HomePage()
+                }
+                composable(BottomItem.Got.route) {
 //                RecPage()
-            }
-            composable(BottomItem.Mine.route) {
-                // MinePage()
+                }
+                composable(BottomItem.Mine.route) {
+                    // MinePage()
+                }
             }
         }
-    }
 
+    }
 }
 
 @Composable
