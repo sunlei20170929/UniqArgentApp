@@ -20,18 +20,21 @@ class MainViewModel @Inject constructor(private val savedStateHandle: SavedState
 ): AndroidViewModel(application){
 
     private val LANGUAGE = "language"
+    private val REMINDER = "reminder"
 
     val shownSplash = mutableStateOf(SplashState.Shown)
 
     var languageSetting: Int? = if(savedStateHandle.get<Int>(LANGUAGE)==null)  0
     else savedStateHandle[LANGUAGE]
 
+    var hasRead:Boolean = savedStateHandle.get<Boolean>(REMINDER) == true
+
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     fun setLanguage(lan:Int){
         viewModelScope.launch {
             languageSetting = lan
-            savedStateHandle.set(LANGUAGE,languageSetting)
+            savedStateHandle[LANGUAGE] = languageSetting
             when(lan){
                 1->{
                     application.applicationContext.getSystemService(LocaleManager::class.java
@@ -43,9 +46,20 @@ class MainViewModel @Inject constructor(private val savedStateHandle: SavedState
                     ).applicationLocales = LocaleList(Locale.forLanguageTag("fr"))
                 }
             }
-
-
         }
+    }
 
+    fun onAcceptReminder(){
+        hasRead = true
+        savedStateHandle[REMINDER] = true
+    }
+
+    fun onRefuseReminder(){
+        hasRead = true
+        savedStateHandle[REMINDER] = false
+    }
+
+    fun onAcceptRemider() {
+        TODO("Not yet implemented")
     }
 }

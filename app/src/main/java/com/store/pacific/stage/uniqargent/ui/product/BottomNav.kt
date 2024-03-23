@@ -75,7 +75,7 @@ fun MainNav(modifier:Modifier, topPadding: Dp = 0.dp, mainViewModel: MainViewMod
     val languageState by remember { mutableStateOf( mainViewModel.languageSetting)}
     var openAlertDialog = remember { mutableStateOf(false) }
 
-    val reminder by remember { mutableStateOf(false) }
+    val reminder by remember { mutableStateOf(mainViewModel.hasRead) }
     val scope = rememberCoroutineScope()
     if(languageState==0 && !openAlertDialog.value){
         LanguageDialog(modifier = Modifier,
@@ -89,30 +89,35 @@ fun MainNav(modifier:Modifier, topPadding: Dp = 0.dp, mainViewModel: MainViewMod
             })
     }
 
-    if(languageState!=0 && !reminder){
-        WebviewPage(Modifier)
-    }
-    Scaffold(
-        topBar = {  },
-        bottomBar = { BottomBarWidget(bottomSelectedState, mBottomTabItems) {
-            bottomSelectedState = it
-            navController.popBackStack()
-            navController.navigate(mBottomTabItems[it].route)
+    if( !reminder){
+        WebviewPage(Modifier, onAccept = {
+            mainViewModel.onAcceptReminder()
+        }, onRefuse = {
+            mainViewModel.onRefuseReminder()
+        })
+    }else{
+        Scaffold(
+            topBar = {  },
+            bottomBar = { BottomBarWidget(bottomSelectedState, mBottomTabItems) {
+                bottomSelectedState = it
+                navController.popBackStack()
+                navController.navigate(mBottomTabItems[it].route)
             }
-        }){
-        NavHost(navController,startDestination = BottomItem.Home.route, modifier = Modifier.padding(it.calculateBottomPadding())) {
-            composable(BottomItem.Home.route) {
+            }){
+            NavHost(navController,startDestination = BottomItem.Home.route, modifier = Modifier.padding(it.calculateBottomPadding())) {
+                composable(BottomItem.Home.route) {
 //                HomePage()
-            }
-            composable(BottomItem.Got.route) {
+                }
+                composable(BottomItem.Got.route) {
 //                RecPage()
-            }
-            composable(BottomItem.Mine.route) {
-                // MinePage()
+                }
+                composable(BottomItem.Mine.route) {
+                    // MinePage()
+                }
             }
         }
-    }
 
+    }
 }
 
 @Composable
