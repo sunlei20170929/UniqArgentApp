@@ -7,7 +7,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 
 data class commonArgs(
     val appssid:String,
-    val userId:Int,
+    val userId:String,
     val lbs:String = "0,0",
     val language:String = "es",
     val versionName:String,
@@ -35,3 +35,10 @@ fun  generateRequestBody(requestDataMap:Map<String, String>):Map<String, Request
 fun toRequestBody(key:String):RequestBody{
     return key.toRequestBody("multipart/form-data".toMediaTypeOrNull())
 }
+
+fun strToRequestBody(p: String): RequestBody {
+    return p.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+}
+
+
+

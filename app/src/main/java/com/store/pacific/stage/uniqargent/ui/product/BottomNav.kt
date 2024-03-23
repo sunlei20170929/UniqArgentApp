@@ -94,7 +94,7 @@ fun MainNav(modifier:Modifier, topPadding: Dp = 0.dp, mainViewModel: MainViewMod
         }){
         NavHost(navController,startDestination = BottomItem.Home.route, modifier = Modifier.padding(it.calculateBottomPadding())) {
             composable(BottomItem.Home.route) {
-//                HomePage()
+                HomePage(Modifier,mainViewModel)
             }
             composable(BottomItem.Got.route) {
 //                RecPage()
