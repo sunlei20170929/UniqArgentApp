@@ -9,11 +9,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.Locale
 import javax.inject.Inject
 
-
+@HiltViewModel
 class MainViewModel @Inject constructor(private val savedStateHandle: SavedStateHandle,
                                         private val application: Application
 ): AndroidViewModel(application){
