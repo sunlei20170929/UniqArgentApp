@@ -60,9 +60,7 @@ fun WebviewPage(modifier:Modifier,onAccept:()->Unit,onRefuse:()->Unit){
                 .weight(1f)
                 .padding(start = 16.dp)
                 .wrapContentWidth(Alignment.Start),
-                colors = ButtonDefaults.outlinedButtonColors(
-                    containerColor = Color.White    ),
-                border = BorderStroke(1.dp,color = Color(0x007c5c))){
+                ){
                 Text(stringResource(R.string.refuse))
             }
 
