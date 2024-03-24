@@ -2,8 +2,10 @@ package com.store.pacific.stage
 
 import android.app.Application
 import android.app.LocaleManager
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.LocaleList
+import android.provider.Settings
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -74,6 +76,52 @@ class MainViewModel @Inject constructor(private val savedStateHandle: SavedState
                 _sms.value = it
             }
         }
+    }
+
+
+
+
+    /**
+     * FOR HEADER
+     *
+     * */
+
+    companion object{
+        var unknownSpeakerSoap = "134"//client-id
+        var chiefPandaTerminalHolyBallet = "" //token
+        var spanishSoilAdmission = "" //userId
+        var passiveRubberAllAvenue = ""//currentUserId
+        var basicPrivateHousework = "googleplay"//channel
+        var uncertainEasternSpecialBasket = "0"//versionCode = 0
+        var nervousRainbowClass = "" //versionName
+        var fondLoudTroopModernPassage = ""//device-id
+        var spokenRadiationFormerChoiceBill = ""//imei
+        var arcticPilotFinalSleep = "1"//mulFlag
+        var femaleFuelMildVoyage = ""//v-flag
+        var femalePermissionSelf = ""//deviceId
+    }
+
+    fun getVersion(){
+        try{
+            application.applicationContext.packageManager.getPackageInfo("com.store.pacific.stage",1).also {
+                nervousRainbowClass = it.versionName
+                uncertainEasternSpecialBasket = it.versionCode.toString()
+            }
+        }catch ( e: PackageManager.NameNotFoundException) {
+            e.printStackTrace();
+        }
+    }
+
+    //token
+    fun getchiefPandaTerminalHolyBallet(){
+        chiefPandaTerminalHolyBallet =  savedStateHandle.get<String>("chiefPandaTerminalHolyBallet").toString()
+        passiveRubberAllAvenue = chiefPandaTerminalHolyBallet
+    }
+    //device-id
+    fun getfondLoudTroopModernPassage(){
+        fondLoudTroopModernPassage = Settings.Secure.getString(application.applicationContext.contentResolver, Settings.Secure.ANDROID_ID)
+        spokenRadiationFormerChoiceBill = fondLoudTroopModernPassage
+        femalePermissionSelf = fondLoudTroopModernPassage
     }
 
 }

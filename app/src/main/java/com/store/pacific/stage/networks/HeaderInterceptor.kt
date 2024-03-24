@@ -6,42 +6,47 @@ import okhttp3.Response
 import org.json.JSONObject
 
 
-data class Header(
-    val id:String,
-    val token:String,
-    val userId:String,
-    val currentUserId:String,
-    val channel:String,
-    val versionName:String,
-    val versionCode:String,
-    val device_Id:String,
-    val imei:String,
-    val mulFlag:String,
-    val vFlag:String,
-    val deviceId:String
-)
+
 class HeaderInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-        val request = chain.request().newBuilder()
-            .addHeader("client-id",_header.getString("client-id"))
-            .addHeader("token",_header.getString("token"))
-            .addHeader("userId",_header.getString("userId"))
-            .addHeader("currentUserId",_header.getString("currentUserId"))
-            .addHeader("channel",_header.getString("channel"))
-            .addHeader("versionName",_header.getString("versionName"))
-            .addHeader("versionCode",_header.getString("versionCode"))
-            .addHeader("device-id",_header.getString("device-id"))
-            .addHeader("imei",_header.getString("imei"))
-            .addHeader("mulFlag",_header.getString("mulFlag"))
-            .addHeader("v-flag",_header.getString("v-flag"))
-            .addHeader("deviceId",_header.getString("deviceId"))
-            .build()
+        /**
+         *
+         *  .addHeader("client-id",_header.getString("client-id"))
+         *             .addHeader("token",_header.getString("token"))
+         *             .addHeader("userId",_header.getString("userId"))
+         *             .addHeader("currentUserId",_header.getString("currentUserId"))
+         *             .addHeader("channel",_header.getString("channel"))
+         *             .addHeader("versionName",_header.getString("versionName"))
+         *             .addHeader("versionCode",_header.getString("versionCode"))
+         *             .addHeader("device-id",_header.getString("device-id"))
+         *             .addHeader("imei",_header.getString("imei"))
+         *             .addHeader("mulFlag",_header.getString("mulFlag"))
+         *             .addHeader("v-flag",_header.getString("v-flag"))
+         *             .addHeader("deviceId",_header.getString("deviceId"))
+         * */
+        val request = _header?.let {
+            chain.request().newBuilder()
+                .addHeader("unknownSpeakerSoap", it.getString("unknownSpeakerSoap"))
+                .addHeader("chiefPandaTerminalHolyBallet",it.getString("chiefPandaTerminalHolyBallet"))
+                .addHeader("spanishSoilAdmission",it.getString("spanishSoilAdmission"))
+                .addHeader("passiveRubberAllAvenue",it.getString("passiveRubberAllAvenue"))
+                .addHeader("basicPrivateHousework",it.getString("basicPrivateHousework"))
+                .addHeader("nervousRainbowClass",it.getString("nervousRainbowClass"))
+                .addHeader("uncertainEasternSpecialBasket",it.getString("uncertainEasternSpecialBasket"))
+                .addHeader("femalePermissionSelf",it.getString("femalePermissionSelf"))
+                .addHeader("spokenRadiationFormerChoiceBill",it.getString("spokenRadiationFormerChoiceBill"))
+                .addHeader("arcticPilotFinalSleep",it.getString("arcticPilotFinalSleep"))
+                .addHeader("newHungerRecentBeingSquid",it.getString("newHungerRecentBeingSquid"))
+                .addHeader("fondLoudTroopModernPassage",it.getString("fondLoudTroopModernPassage"))
+                .build()
+        }
 
-        return chain.proceed(request)
 
+        if(request!=null) return chain.proceed(request)
+        else return chain.proceed(chain.request())
     }
 
-    var _header = JSONObject()
+    private var _header : JSONObject?= null
 
 
     fun setHeader(headerjson:JSONObject){
@@ -52,5 +57,21 @@ class HeaderInterceptor : Interceptor {
         val gson = Gson()
         setHeader(JSONObject(gson.toJson(header)))
     }
+
 }
+
+data class Header(
+    val unknownSpeakerSoap:String,//clientid
+    val chiefPandaTerminalHolyBallet:String,//token
+    val spanishSoilAdmission:String,//userid
+    val passiveRubberAllAvenue:String,//currentUserId
+    val basicPrivateHousework:String,//chanel
+    val nervousRainbowClass:String,//versionName
+    val uncertainEasternSpecialBasket:String,//versionCode
+    val femalePermissionSelf:String,//deviceid
+    val spokenRadiationFormerChoiceBill:String,//imei
+    val arcticPilotFinalSleep:String,//mulFlag
+    val newHungerRecentBeingSquid:String,//vflag
+    val fondLoudTroopModernPassage:String//deviceid
+)
 
