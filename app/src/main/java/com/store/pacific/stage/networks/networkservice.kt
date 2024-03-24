@@ -13,6 +13,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 import java.io.IOException
 import java.nio.charset.Charset
+import java.util.concurrent.TimeUnit
 
 object NetworkService {
 
@@ -22,23 +23,28 @@ object NetworkService {
     private fun getUrl() = WEB.TEST.url
 
     private var okHttpClient: OkHttpClient.Builder = OkHttpClient.Builder()
-        .addInterceptor(LogInterceptor())
-        .addInterceptor { chain ->
-            val request = chain.request()
-            val requestbuild = request.newBuilder()
-            requestbuild.addHeader("Content-Type", "application/json")
-            return@addInterceptor chain.proceed(requestbuild.build())
+        .run {
+            connectTimeout(60, TimeUnit.SECONDS)
+            readTimeout(60, TimeUnit.SECONDS)
+            writeTimeout(60, TimeUnit.SECONDS)
+            retryOnConnectionFailure(false)//错误重连
+           .addInterceptor(LogInterceptor())
+                .addInterceptor { chain ->
+                    val request = chain.request()
+                    val requestbuild = request.newBuilder()
+                    requestbuild.addHeader("Content-Type", "application/json")
+                    return@addInterceptor chain.proceed(requestbuild.build())
+                }
+                .addInterceptor(HeaderInterceptor())
         }
-        .addInterceptor(HeaderInterceptor())
 
     val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl(getUrl())
         .client(okHttpClient.build())
-//        .addCallAdapterFactory(FlowCallAdapterFactory.create())
-//        .addCallAdapterFactory(LiveDataCallAdapterFactory())
+        .addCallAdapterFactory(FlowCallAdapterFactory.create())
+        .addCallAdapterFactory(LiveDataCallAdapterFactory())
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-
 }
 
 sealed class WEB(val url: String) {
