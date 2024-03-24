@@ -1,6 +1,7 @@
 package com.store.pacific.stage.networks
 
 import com.google.gson.Gson
+import com.store.pacific.stage.HeaderParam
 import okhttp3.Interceptor
 import okhttp3.Response
 import org.json.JSONObject
@@ -53,25 +54,14 @@ class HeaderInterceptor : Interceptor {
         _header = headerjson
     }
 
-    fun setHeaderObj(header:Header){
+    fun setHeaderObj(header: HeaderParam){
         val gson = Gson()
         setHeader(JSONObject(gson.toJson(header)))
     }
 
 }
 
-data class Header(
-    val unknownSpeakerSoap:String,//clientid
-    val chiefPandaTerminalHolyBallet:String,//token
-    val spanishSoilAdmission:String,//userid
-    val passiveRubberAllAvenue:String,//currentUserId
-    val basicPrivateHousework:String,//chanel
-    val nervousRainbowClass:String,//versionName
-    val uncertainEasternSpecialBasket:String,//versionCode
-    val femalePermissionSelf:String,//deviceid
-    val spokenRadiationFormerChoiceBill:String,//imei
-    val arcticPilotFinalSleep:String,//mulFlag
-    val newHungerRecentBeingSquid:String,//vflag
-    val fondLoudTroopModernPassage:String//deviceid
-)
+
+
+
 

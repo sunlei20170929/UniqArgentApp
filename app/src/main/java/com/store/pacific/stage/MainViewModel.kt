@@ -15,10 +15,15 @@ import androidx.lifecycle.viewModelScope
 import com.store.pacific.stage.repository.UniqRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.net.Inet4Address
+import java.net.Inet6Address
+import java.net.InetAddress
+import java.net.NetworkInterface
+import java.net.SocketException
 import java.util.Locale
 import javax.inject.Inject
+
 
 @HiltViewModel
 class MainViewModel @Inject constructor(private val savedStateHandle: SavedStateHandle,
@@ -27,6 +32,7 @@ class MainViewModel @Inject constructor(private val savedStateHandle: SavedState
 
     private val LANGUAGE = "language"
     private val REMINDER = "reminder"
+
 
     val shownSplash = mutableStateOf(SplashState.Shown)
 
@@ -87,6 +93,9 @@ class MainViewModel @Inject constructor(private val savedStateHandle: SavedState
      * */
 
     companion object{
+        /**
+         * header
+         * */
         var unknownSpeakerSoap = "134"//client-id
         var chiefPandaTerminalHolyBallet = "" //token
         var spanishSoilAdmission = "" //userId
@@ -97,11 +106,66 @@ class MainViewModel @Inject constructor(private val savedStateHandle: SavedState
         var fondLoudTroopModernPassage = ""//device-id
         var spokenRadiationFormerChoiceBill = ""//imei
         var arcticPilotFinalSleep = "1"//mulFlag
-        var femaleFuelMildVoyage = ""//v-flag
+        var newHungerRecentBeingSquid:Boolean? = null//v-flag
         var femalePermissionSelf = ""//deviceId
+
+        /**
+         * common params
+         * */
+
+        var unfitVariousBrokenCity = "134"//appssid
+//        var spanishSoilAdmission = ""//userId
+        var highPacket = "0,0"//lbs
+        var rectangleZebraSleeve = "es" //language
+//        var nervousRainbowClass//versionName
+//        var uncertainEasternSpecialBasket = ""//versionCode
+//        var uncertainEasternSpecialBasket = ""//versionCode
+//        var femalePermissionSelf = ""//deviceId
+//        var spokenRadiationFormerChoiceBill = ""//imei
+        var finalEmbassyLightning = "0.0.0.0"  //ip
+//        var basicPrivateHousework = "" //channel
+        var gayEnvelopeSalesmanSilver = Build.MODEL//systemMode
+        var betterEarFoolishCourtSelf = "" //googleMobileNo
+
+        var furnishedContinentSuggestionFlashlight = ""//googleUserAgent
+    }
+    init{
+        getVersion()
+        getchiefPandaTerminalHolyBallet()
+        getfondLoudTroopModernPassage()
+        getIPAddress(true)
+
+        var headerP = HeaderParam(unknownSpeakerSoap = unknownSpeakerSoap,
+            chiefPandaTerminalHolyBallet = chiefPandaTerminalHolyBallet,
+            spanishSoilAdmission = spanishSoilAdmission,
+            passiveRubberAllAvenue = passiveRubberAllAvenue,
+            basicPrivateHousework = basicPrivateHousework,
+            nervousRainbowClass = nervousRainbowClass,
+            uncertainEasternSpecialBasket = uncertainEasternSpecialBasket,
+            femalePermissionSelf = femalePermissionSelf,
+            spokenRadiationFormerChoiceBill = spokenRadiationFormerChoiceBill,
+            arcticPilotFinalSleep = arcticPilotFinalSleep,
+            fondLoudTroopModernPassage = fondLoudTroopModernPassage
+            )
+
+        var commonP = CommonParam(
+            unfitVariousBrokenCity = unfitVariousBrokenCity,
+            spanishSoilAdmission = spanishSoilAdmission,
+            highPacket = highPacket,
+            rectangleZebraSleeve = rectangleZebraSleeve,
+            nervousRainbowClass = nervousRainbowClass,
+            uncertainEasternSpecialBasket = uncertainEasternSpecialBasket,
+            femalePermissionSelf = femalePermissionSelf,
+            spokenRadiationFormerChoiceBill = spokenRadiationFormerChoiceBill,
+            finalEmbassyLightning = finalEmbassyLightning,
+            basicPrivateHousework = basicPrivateHousework,
+            gayEnvelopeSalesmanSilver = gayEnvelopeSalesmanSilver,
+            betterEarFoolishCourtSelf = betterEarFoolishCourtSelf,
+            furnishedContinentSuggestionFlashlight = furnishedContinentSuggestionFlashlight
+        )
     }
 
-    fun getVersion(){
+    private fun getVersion(){
         try{
             application.applicationContext.packageManager.getPackageInfo("com.store.pacific.stage",1).also {
                 nervousRainbowClass = it.versionName
@@ -113,19 +177,77 @@ class MainViewModel @Inject constructor(private val savedStateHandle: SavedState
     }
 
     //token
-    fun getchiefPandaTerminalHolyBallet(){
+    private fun getchiefPandaTerminalHolyBallet(){
         chiefPandaTerminalHolyBallet =  savedStateHandle.get<String>("chiefPandaTerminalHolyBallet").toString()
         passiveRubberAllAvenue = chiefPandaTerminalHolyBallet
     }
     //device-id
-    fun getfondLoudTroopModernPassage(){
+    private fun getfondLoudTroopModernPassage(){
         fondLoudTroopModernPassage = Settings.Secure.getString(application.applicationContext.contentResolver, Settings.Secure.ANDROID_ID)
         spokenRadiationFormerChoiceBill = fondLoudTroopModernPassage
         femalePermissionSelf = fondLoudTroopModernPassage
     }
 
-}
+    private fun getIPAddress(useIPv4: Boolean) {
+        try {
+            for (intf in NetworkInterface.getNetworkInterfaces()) {
+                for (addr in intf.getInetAddresses()) {
+                    if (InetAddress.getLocalHost() != addr) {
+                        if (addr is Inet4Address) {
+                            finalEmbassyLightning =  addr.getHostAddress()
+                        } else if (addr is Inet6Address) {
+                            finalEmbassyLightning =  addr.getHostAddress()
+                        }
+                    }
+                }
+            }
+        } catch (ex: SocketException) {
+            ex.printStackTrace()
+        }
 
+    }
+
+    var nobleHayLateInsect = (application as UniqArgentApp).ADID//googleGaid
+
+}
+data class CommonParam(
+    var unfitVariousBrokenCity :String = "134",//appssid
+    var spanishSoilAdmission :String = "",//userId
+    var highPacket :String= "0,0",//lbs
+    var rectangleZebraSleeve:String = "es", //language
+    var nervousRainbowClass:String,//versionName
+    var uncertainEasternSpecialBasket:String = "",//versionCode
+    var femalePermissionSelf :String = "",//deviceId
+    var spokenRadiationFormerChoiceBill:String = "",//imei
+    var finalEmbassyLightning:String = "0.0.0.0" , //ip
+    var basicPrivateHousework:String = "", //channel
+    var gayEnvelopeSalesmanSilver:String = Build.MODEL,//systemMode
+    var betterEarFoolishCourtSelf:String = "", //googleMobileNo
+    var furnishedContinentSuggestionFlashlight:String = "",//googleUserAgent
+
+)
+data class HeaderParam(
+    val unknownSpeakerSoap:String,//clientid
+    val chiefPandaTerminalHolyBallet:String,//token
+    val spanishSoilAdmission:String,//userid
+    val passiveRubberAllAvenue:String,//currentUserId
+    val basicPrivateHousework:String,//chanel
+    val nervousRainbowClass:String,//versionName
+    val uncertainEasternSpecialBasket:String,//versionCode
+    val femalePermissionSelf:String,//deviceid
+    val spokenRadiationFormerChoiceBill:String,//imei
+    val arcticPilotFinalSleep:String,//mulFlag
+    val newHungerRecentBeingSquid:String? = null,//vflag
+    val fondLoudTroopModernPassage:String//deviceid
+)
+
+
+
+
+
+interface AdvertisingIdCallback {
+    fun onAdvertisingIdInfoFetched(advertisingId: String?, isLATVisible: Boolean)
+}
 // Represents different states for the LatestNews screen
 sealed class LatestNewsUiState {
     data class Success(val news: List<String>): LatestNewsUiState()
