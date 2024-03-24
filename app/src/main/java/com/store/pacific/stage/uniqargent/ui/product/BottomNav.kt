@@ -77,47 +77,49 @@ fun MainNav(modifier:Modifier, topPadding: Dp = 0.dp, mainViewModel: MainViewMod
 
     val reminder by remember { mutableStateOf(mainViewModel.hasRead) }
     val scope = rememberCoroutineScope()
-    if(languageState==0 && !openAlertDialog.value){
-        LanguageDialog(modifier = Modifier,
-            onLanguageSelected = {
-                scope.launch {
-                    mainViewModel.setLanguage(it)
-                }
 
-        }, onDismissRequest = {
-            openAlertDialog.value = true
-            })
-    }
-
-    if(!reminder){
-        WebviewPage(Modifier, onAccept = {
-            mainViewModel.onAcceptReminder()
-        }, onRefuse = {
-            mainViewModel.onRefuseReminder()
-        })
-    }else{
-        Scaffold(
-            topBar = {  },
-            bottomBar = { BottomBarWidget(bottomSelectedState, mBottomTabItems) {
-                bottomSelectedState = it
-                navController.popBackStack()
-                navController.navigate(mBottomTabItems[it].route)
-            }
-            }){
-            NavHost(navController,startDestination = BottomItem.Home.route, modifier = Modifier.padding(it.calculateBottomPadding())) {
-                composable(BottomItem.Home.route) {
-//                HomePage()
-                }
-                composable(BottomItem.Got.route) {
-//                RecPage()
-                }
-                composable(BottomItem.Mine.route) {
-                    // MinePage()
-                }
-            }
-        }
-
-    }
+    HomePage(modifier,mainViewModel)
+//    if(languageState==0 && !openAlertDialog.value){
+//        LanguageDialog(modifier = Modifier,
+//            onLanguageSelected = {
+//                scope.launch {
+//                    mainViewModel.setLanguage(it)
+//                }
+//
+//        }, onDismissRequest = {
+//            openAlertDialog.value = true
+//            })
+//    }
+//
+//    if(!reminder){
+//        WebviewPage(Modifier, onAccept = {
+//            mainViewModel.onAcceptReminder()
+//        }, onRefuse = {
+//            mainViewModel.onRefuseReminder()
+//        })
+//    }else{
+//        Scaffold(
+//            topBar = {  },
+//            bottomBar = { BottomBarWidget(bottomSelectedState, mBottomTabItems) {
+//                bottomSelectedState = it
+//                navController.popBackStack()
+//                navController.navigate(mBottomTabItems[it].route)
+//            }
+//            }){
+//            NavHost(navController,startDestination = BottomItem.Home.route, modifier = Modifier.padding(it.calculateBottomPadding())) {
+//                composable(BottomItem.Home.route) {
+//                HomePage(modifier,mainViewModel)
+//                }
+//                composable(BottomItem.Got.route) {
+////                RecPage()
+//                }
+//                composable(BottomItem.Mine.route) {
+//                    // MinePage()
+//                }
+//            }
+//        }
+//
+//    }
 }
 
 @Composable

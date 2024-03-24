@@ -21,8 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(private val savedStateHandle: SavedStateHandle,
                                         private val application: Application,
-    private val repo:UniqRepository
-): AndroidViewModel(application){
+    private val repo:UniqRepository): AndroidViewModel(application){
 
     private val LANGUAGE = "language"
     private val REMINDER = "reminder"
@@ -77,4 +76,10 @@ class MainViewModel @Inject constructor(private val savedStateHandle: SavedState
         }
     }
 
+}
+
+// Represents different states for the LatestNews screen
+sealed class LatestNewsUiState {
+    data class Success(val news: List<String>): LatestNewsUiState()
+    data class Error(val exception: Throwable): LatestNewsUiState()
 }
