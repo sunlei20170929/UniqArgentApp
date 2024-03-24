@@ -69,7 +69,6 @@ fun MainNav(modifier:Modifier){
 
         NavHost(navController,startDestination = BottomItem.Home.route, modifier = Modifier.padding(it.calculateBottomPadding())) {
             composable(BottomItem.Home.route) {
-
 //                HomePage()
             }
 
