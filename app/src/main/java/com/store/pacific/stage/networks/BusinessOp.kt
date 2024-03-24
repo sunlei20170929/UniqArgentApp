@@ -13,7 +13,7 @@ interface BusinessOp {
     //获取验证码  /login/getVerifCode
     @Multipart
     @POST("/forgetfulList/studyEastToothpaste")
-    suspend fun getVcode(@Part("triangleSilenceAge")triangleSilenceAge : RequestBody): String
+    suspend fun getVcode(@Part("triangleSilenceAge")triangleSilenceAge : RequestBody): Flow<String>
 
     //注册/登录  /login/loginForSms
     @Multipart

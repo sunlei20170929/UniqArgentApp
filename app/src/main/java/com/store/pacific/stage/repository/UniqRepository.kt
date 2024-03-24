@@ -16,7 +16,7 @@ class UniqRepository {
 
     private val api: BusinessOp = NetworkService.retrofit.create(BusinessOp::class.java)
 
-    suspend fun getSmscode(num:String): String = withContext(Dispatchers.IO) {
+    suspend fun getSmscode(num:String): Flow<String> = withContext(Dispatchers.IO) {
         val para = toRequestBody(num)
         api.getVcode(para)
     }
