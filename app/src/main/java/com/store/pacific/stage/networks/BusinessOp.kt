@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.HeaderMap
 import retrofit2.http.Multipart
 import retrofit2.http.POST
@@ -13,10 +14,12 @@ import retrofit2.http.PartMap
 
 interface BusinessOp {
 
-    //获取验证码  /login/getVerifCode
+    //获取验证码
+    // /login/getVerifCode@FormUrlEncoded
+
     @Multipart
     @POST("/forgetfulList/studyEastToothpaste")
-    suspend fun getVcode(@Part("triangleSilenceAge")triangleSilenceAge : RequestBody): Flow<String>
+    suspend fun getVcode(@HeaderMap headers:Map<String,String>,@PartMap common:Map<String,@JvmSuppressWildcards RequestBody>,@Part("triangleSilenceAge")triangleSilenceAge : RequestBody): Flow<String>
 
     //注册/登录  /login/loginForSms
     @Multipart

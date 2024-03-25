@@ -123,6 +123,8 @@ class MainViewModel @Inject constructor(private val savedStateHandle: SavedState
         var furnishedContinentSuggestionFlashlight = ""//googleUserAgent
         lateinit var headerP:HeaderParam
         lateinit var commonP:CommonParam
+        var headerMap:MutableMap<String,String> = mapOf("unknownSpeakerSoap" to "unknownSpeakerSoap").toMutableMap()
+        var commonMap:MutableMap<String,String> = mapOf("unfitVariousBrokenCity" to "unfitVariousBrokenCity").toMutableMap()
     }
     init{
 
@@ -143,7 +145,21 @@ class MainViewModel @Inject constructor(private val savedStateHandle: SavedState
                 spokenRadiationFormerChoiceBill = spokenRadiationFormerChoiceBill,
                 arcticPilotFinalSleep = arcticPilotFinalSleep,
                 fondLoudTroopModernPassage = fondLoudTroopModernPassage
+
+
             )
+            headerMap["unknownSpeakerSoap"] = unknownSpeakerSoap
+            headerMap["chiefPandaTerminalHolyBallet"] = chiefPandaTerminalHolyBallet
+            headerMap["spanishSoilAdmission"] = spanishSoilAdmission
+            headerMap["passiveRubberAllAvenue"] = passiveRubberAllAvenue
+            headerMap["basicPrivateHousework"] = basicPrivateHousework
+            headerMap["nervousRainbowClass"] = nervousRainbowClass
+            headerMap["uncertainEasternSpecialBasket"] = uncertainEasternSpecialBasket
+            headerMap["femalePermissionSelf"] = femalePermissionSelf
+            headerMap["spokenRadiationFormerChoiceBill"] = spokenRadiationFormerChoiceBill
+            headerMap["arcticPilotFinalSleep"] = arcticPilotFinalSleep
+            headerMap["fondLoudTroopModernPassage"] = fondLoudTroopModernPassage
+
 
             commonP = CommonParam(
                 unfitVariousBrokenCity = unfitVariousBrokenCity,
@@ -160,6 +176,19 @@ class MainViewModel @Inject constructor(private val savedStateHandle: SavedState
                 betterEarFoolishCourtSelf = betterEarFoolishCourtSelf,
                 furnishedContinentSuggestionFlashlight = furnishedContinentSuggestionFlashlight
             )
+            commonMap["unfitVariousBrokenCity"] = unfitVariousBrokenCity
+            commonMap["spanishSoilAdmission"] = spanishSoilAdmission
+            commonMap["highPacket"] = highPacket
+            commonMap["rectangleZebraSleeve"] = rectangleZebraSleeve
+            commonMap["nervousRainbowClass"] = nervousRainbowClass
+            commonMap["uncertainEasternSpecialBasket"] = uncertainEasternSpecialBasket
+            commonMap["femalePermissionSelf"] = femalePermissionSelf
+            commonMap["spokenRadiationFormerChoiceBill"] = spokenRadiationFormerChoiceBill
+            commonMap["finalEmbassyLightning"] = finalEmbassyLightning
+            commonMap["basicPrivateHousework"] = basicPrivateHousework
+            commonMap["gayEnvelopeSalesmanSilver"] = gayEnvelopeSalesmanSilver
+            commonMap["betterEarFoolishCourtSelf"] = betterEarFoolishCourtSelf
+            commonMap["furnishedContinentSuggestionFlashlight"] = furnishedContinentSuggestionFlashlight
 
         }
 
@@ -170,7 +199,7 @@ class MainViewModel @Inject constructor(private val savedStateHandle: SavedState
     }
     fun getSms(num:String){
         viewModelScope.launch {
-            repo.getSmscode(headerP, commonP ,num)?.catch {
+            repo.getSmscode(headerMap, commonMap ,num)?.catch {
                 _sms.value = it.message.toString()
             }?.collect{
                 _sms.value = it

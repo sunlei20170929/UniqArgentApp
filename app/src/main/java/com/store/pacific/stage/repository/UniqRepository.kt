@@ -25,14 +25,14 @@ class UniqRepository @Inject constructor(){
 
 
 
-    suspend fun getSmscode(header: HeaderParam, common: CommonParam, num:String): Flow<String>? = withContext(Dispatchers.IO) {
+    suspend fun getSmscode( headParam:Map<String,String>,commonMap: Map<String,String>, num:String): Flow<String>? = withContext(Dispatchers.IO) {
         val para = toRequestBody(num)
-        val headerMap = beanToMap(header) as Map<String, String>
-        Log.w("param","headerMap is ${headerMap.toString()}")
-        val commonMap = beanToMap(common)
+//        val headerMap = beanToMap(header) as Map<String, String>
+//        Log.w("param","headerMap is ${headerMap.toString()}")
+//        val commonMap = beanToMap(common)
         val commonParam:Map<String,RequestBody> = generateRequestBody(commonMap!!)
         Log.w("param","commonParam is ${commonParam.toString()}")
-        api.getVcode(para)
+        api.getVcode(headParam,commonParam,para)
 //        headerMap?.let { api.getVcode(it,commonParam,para) }
     }
 

@@ -24,8 +24,8 @@ object NetworkService {
 
     private var okHttpClient: OkHttpClient.Builder = OkHttpClient.Builder()
         .run {
-            connectTimeout(60, TimeUnit.SECONDS)
-            readTimeout(60, TimeUnit.SECONDS)
+            connectTimeout(30, TimeUnit.SECONDS)
+            readTimeout(30, TimeUnit.SECONDS)
             writeTimeout(60, TimeUnit.SECONDS)
             retryOnConnectionFailure(false)//错误重连
            .addInterceptor(LogInterceptor())
