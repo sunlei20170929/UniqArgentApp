@@ -19,7 +19,7 @@ import javax.net.ssl.X509TrustManager
 object NetworkService {
 
 //    private fun getUrl() = WEB.TEST.url
-    private fun getUrl() = "https://cmr.ultracreditosmx.com/"
+    private fun getUrl() = "https://cmr.ultracreditosmx.com/uniqargent/"
 
 
     private var okHttpClient: OkHttpClient.Builder = OkHttpClient.Builder()
@@ -40,7 +40,7 @@ object NetworkService {
 
 
     val retrofit: Retrofit = Retrofit.Builder()
-        .baseUrl("https://cmr.ultracreditosmx.com/")
+        .baseUrl("https://cmr.ultracreditosmx.com/uniqargent/")
         .client(okHttpClient.build())
         .addCallAdapterFactory(FlowCallAdapterFactory.create())
         .addConverterFactory(GsonConverterFactory.create())

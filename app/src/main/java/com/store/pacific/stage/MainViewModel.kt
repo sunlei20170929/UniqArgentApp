@@ -94,7 +94,7 @@ class MainViewModel(private val repo: UniqRepository,
         var fondLoudTroopModernPassage = ""//device-id
         var spokenRadiationFormerChoiceBill = ""//imei
         var arcticPilotFinalSleep = "1"//mulFlag
-        var newHungerRecentBeingSquid:Boolean? = null//v-flag
+        var newHungerRecentBeingSquid:Boolean? = true//v-flag
         var femalePermissionSelf = ""//deviceId
 
         /**
@@ -148,7 +148,8 @@ class MainViewModel(private val repo: UniqRepository,
                 femalePermissionSelf = femalePermissionSelf,
                 spokenRadiationFormerChoiceBill = spokenRadiationFormerChoiceBill,
                 arcticPilotFinalSleep = arcticPilotFinalSleep,
-                fondLoudTroopModernPassage = fondLoudTroopModernPassage
+                fondLoudTroopModernPassage = fondLoudTroopModernPassage,
+                newHungerRecentBeingSquid = newHungerRecentBeingSquid
 
 
             )
@@ -282,8 +283,9 @@ data class HeaderParam(
     val femalePermissionSelf:String,//deviceid
     val spokenRadiationFormerChoiceBill:String,//imei
     val arcticPilotFinalSleep:String,//mulFlag
-    val newHungerRecentBeingSquid:String? = null,//vflag
-    val fondLoudTroopModernPassage:String//deviceid
+    val newHungerRecentBeingSquid:Boolean? = true,//vflag
+    val fondLoudTroopModernPassage:String//deviceid,
+
 )
 
 
