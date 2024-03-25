@@ -16,7 +16,7 @@ fun HomePage(modifier: Modifier,viewModel:MainViewModel){
 
     Column {
         Text(text=testSms)
-        Button(onClick = {viewModel.getSms("13391860059")}){
+        Button(onClick = {viewModel.getSms("182111111")}){
             Text("GET SMS")
         }
     }

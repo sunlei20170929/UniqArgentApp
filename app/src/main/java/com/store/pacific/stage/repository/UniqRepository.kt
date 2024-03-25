@@ -9,28 +9,28 @@ import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.ResponseBody
 import java.lang.reflect.Field
 import java.util.Objects
-import javax.inject.Inject
-import javax.inject.Singleton
+
 import kotlin.reflect.KProperty1
 
 
-@Singleton
-class UniqRepository @Inject constructor(){
 
-    private val api: BusinessOp = NetworkService.retrofit.create(BusinessOp::class.java)
-
-
-
-    suspend fun getSmscode( headParam:Map<String,String>,commonMap: Map<String,String>, num:String): Flow<String>? = withContext(Dispatchers.IO) {
+class UniqRepository{ //@Inject constructor(private val api: BusinessOp){
+    companion object{
+        private val api: BusinessOp = NetworkService.retrofit.create(BusinessOp::class.java)
+    }
+    suspend fun getSmscode( headParam:Map<String,String>,commonMap: Map<String,String>, num:String): Flow<ResponseBody> = withContext(Dispatchers.IO) {
         val para = toRequestBody(num)
 //        val headerMap = beanToMap(header) as Map<String, String>
 //        Log.w("param","headerMap is ${headerMap.toString()}")
 //        val commonMap = beanToMap(common)
         val commonParam:Map<String,RequestBody> = generateRequestBody(commonMap!!)
         Log.w("param","commonParam is ${commonParam.toString()}")
-        api.getVcode(headParam,commonParam,para)
+        api.getVcode(headParam,
+            commonParam,
+            para)
 //        headerMap?.let { api.getVcode(it,commonParam,para) }
     }
 

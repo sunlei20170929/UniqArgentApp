@@ -1,16 +1,20 @@
 package com.store.pacific.stage.networks
 
+import com.coder.vincent.sharp_retrofit.call_adapter.flow.FlowCallAdapterFactory
+
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
+
+//@Singleton
+//@InstallIn(UniqRepository::class)
 object NetworkService {
 
+//    private fun getUrl() = WEB.TEST.url
+    private fun getUrl() = "https://cmr.ultracreditosmx.com/"
 
-    private val URL = "http://18.228.39.120/uniqargent/" //for release
-
-    private fun getUrl() = WEB.TEST.url
 
     private var okHttpClient: OkHttpClient.Builder = OkHttpClient.Builder()
         .run {
@@ -28,17 +32,17 @@ object NetworkService {
                 .addInterceptor(HeaderInterceptor())
         }
 
+
     val retrofit: Retrofit = Retrofit.Builder()
-        .baseUrl(getUrl())
+        .baseUrl("https://cmr.ultracreditosmx.com/")
         .client(okHttpClient.build())
-        .addCallAdapterFactory(FlowCallAdapterFactory.create())
-//        .addCallAdapterFactory(LiveDataCallAdapterFactory())
         .addConverterFactory(GsonConverterFactory.create())
+        .addCallAdapterFactory(FlowCallAdapterFactory.create(async=false))
         .build()
 }
 
 sealed class WEB(val url: String) {
-    object TEST : WEB("http://18.228.39.120/uniqargent/")
+    object TEST : WEB("https://cmr.ultracreditosmx.com/uniqargent/")//182111111  111111
     object ONLINETEST : WEB("https://test.购买的域名.com/")
     object ONLINE : WEB("https://www.购买的域名.com/")
 

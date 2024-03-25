@@ -2,7 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     kotlin("kapt")
-    id("com.google.dagger.hilt.android")
+//    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -70,6 +70,8 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.material:material")
     implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+    implementation("androidx.navigation:navigation-compose:2.7.7")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -88,10 +90,10 @@ dependencies {
     implementation ("com.google.accompanist:accompanist-webview:0.30.1")
 
     //hilt
-    implementation("com.google.dagger:hilt-android:2.44.2")
-    implementation("androidx.hilt:hilt-navigation-fragment:1.0.0")
-    kapt("com.google.dagger:hilt-android-compiler:2.44.2")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+//    implementation("com.google.dagger:hilt-android:2.44.2")
+//    implementation("androidx.hilt:hilt-navigation-fragment:1.0.0")
+//    kapt("com.google.dagger:hilt-android-compiler:2.44.2")
+//    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 
     //workmanager
     val work_version = "2.9.0"
@@ -116,5 +118,7 @@ dependencies {
     //data class to Map
     implementation ("org.jetbrains.kotlin:kotlin-reflect")
 
+    implementation ("io.github.vincent-series:sharp-retrofit:1.9")
+//    implementation ("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.10.2")
 
 }

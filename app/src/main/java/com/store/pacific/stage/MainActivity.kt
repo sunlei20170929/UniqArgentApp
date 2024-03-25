@@ -27,13 +27,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.store.pacific.stage.ui.theme.UniqArgentTheme
 import com.store.pacific.stage.uniqargent.ui.FlashScreen
 import com.store.pacific.stage.uniqargent.ui.product.MainNav
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
+//@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,7 +45,8 @@ class MainActivity : ComponentActivity() {
                         WindowInsets.navigationBars.only(WindowInsetsSides.Start + WindowInsetsSides.End)),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    val mainViewModel = hiltViewModel<MainViewModel>()
+//                    val mainViewModel = hiltViewModel<MainViewModel>()
+                    val mainViewModel:MainViewModel = viewModel(factory = MainViewModel.Factory)
                     val transitionState = remember { MutableTransitionState(mainViewModel.shownSplash.value) }
                     val transition = updateTransition(transitionState, label = "splashTransition")
                     val splashAlpha by transition.animateFloat(

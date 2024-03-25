@@ -2,11 +2,10 @@ package com.store.pacific.stage.uniqargent.ui.product
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 
-@HiltViewModel
-class ProductViewModel @Inject constructor(
+
+//@HiltViewModel
+class ProductViewModel  constructor(
     savedStateHandle: SavedStateHandle,
     repository: ProductRepository
 ) : ViewModel(){

@@ -11,25 +11,30 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
+import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.CreationExtras
 import com.store.pacific.stage.repository.UniqRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import java.net.Inet4Address
 import java.net.Inet6Address
 import java.net.InetAddress
 import java.net.NetworkInterface
 import java.net.SocketException
 import java.util.Locale
-import javax.inject.Inject
 
 
-@HiltViewModel
-class MainViewModel @Inject constructor(private val savedStateHandle: SavedStateHandle,
-                                        private val application: Application,
-    private val repo:UniqRepository): AndroidViewModel(application){
+class MainViewModel(private val repo: UniqRepository,
+                    private val savedStateHandle: SavedStateHandle,
+                    private val application: Application,
+): AndroidViewModel(application){
 
     private val LANGUAGE = "language"
     private val REMINDER = "reminder"
@@ -125,9 +130,27 @@ class MainViewModel @Inject constructor(private val savedStateHandle: SavedState
         lateinit var commonP:CommonParam
         var headerMap:MutableMap<String,String> = mapOf("unknownSpeakerSoap" to "unknownSpeakerSoap").toMutableMap()
         var commonMap:MutableMap<String,String> = mapOf("unfitVariousBrokenCity" to "unfitVariousBrokenCity").toMutableMap()
+
+
+
+
+        val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel> create(
+                modelClass: Class<T>,
+                extras: CreationExtras
+            ): T {
+                // Get the Application object from extras
+                val application = checkNotNull(extras[APPLICATION_KEY])
+                // Create a SavedStateHandle for this ViewModel from extras
+                val savedStateHandle = extras.createSavedStateHandle()
+
+                return MainViewModel((application as UniqArgentApp).uniqRepository, savedStateHandle,application) as T
+            }
+        }
+
     }
     init{
-
         viewModelScope.launch(Dispatchers.Default) {
             getVersion()
             getchiefPandaTerminalHolyBallet()
@@ -192,17 +215,16 @@ class MainViewModel @Inject constructor(private val savedStateHandle: SavedState
 
         }
 
-
-
-
-
     }
     fun getSms(num:String){
         viewModelScope.launch {
-            repo.getSmscode(headerMap, commonMap ,num)?.catch {
-                _sms.value = it.message.toString()
-            }?.collect{
-                _sms.value = it
+            repo.getSmscode(headerMap, commonMap ,num)
+                ?.catch {e->
+                _sms.value = e.toString()
+            }?.flowOn(Dispatchers.Main)
+                ?.collect{
+                val ret = JSONObject(it.string())
+                _sms.value = ret.toString()
             }
         }
     }
