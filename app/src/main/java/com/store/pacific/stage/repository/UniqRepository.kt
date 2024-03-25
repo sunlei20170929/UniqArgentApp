@@ -1,5 +1,6 @@
 package com.store.pacific.stage.repository
 
+import android.util.Log
 import com.store.pacific.stage.CommonParam
 import com.store.pacific.stage.HeaderParam
 import com.store.pacific.stage.networks.BusinessOp
@@ -11,8 +12,10 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.lang.reflect.Field
+import java.util.Objects
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.reflect.KProperty1
 
 
 @Singleton
@@ -24,18 +27,19 @@ class UniqRepository @Inject constructor(){
 
     suspend fun getSmscode(header: HeaderParam, common: CommonParam, num:String): Flow<String>? = withContext(Dispatchers.IO) {
         val para = toRequestBody(num)
-        val headerMap = beanToMap(header)
+        val headerMap = beanToMap(header) as Map<String, String>
+        Log.w("param","headerMap is ${headerMap.toString()}")
         val commonMap = beanToMap(common)
-        val commonParam = generateRequestBody(commonMap!!)
-        headerMap?.let { api.getVcode(it,commonParam,para) }
+        val commonParam:Map<String,RequestBody> = generateRequestBody(commonMap!!)
+        Log.w("param","commonParam is ${commonParam.toString()}")
+        api.getVcode(para)
+//        headerMap?.let { api.getVcode(it,commonParam,para) }
     }
 
     fun  generateRequestBody(requestDataMap:Map<String, String>):Map<String, RequestBody> {
         var requestBodyMap:MutableMap<String, RequestBody> = emptyMap<String, RequestBody>().toMutableMap()
         for(key in requestDataMap.keys){
-            val requestBody =
-                (requestDataMap[key]?:"").toRequestBody("multipart/form-data".toMediaTypeOrNull())
-
+            val requestBody = (requestDataMap[key]?:"").toRequestBody("multipart/form-data".toMediaTypeOrNull())
             requestBodyMap[key] = requestBody
         }
         return requestBodyMap;
@@ -48,10 +52,21 @@ class UniqRepository @Inject constructor(){
         val fields: Array<Field> = `object`.javaClass.declaredFields
         for (field in fields) {
             field.isAccessible = true
-            map[field.name] = field.get(`object`).toString()
+            map[field.name] = field.get(`object`)?.toString()?:""
         }
         return map
     }
+
+    fun toMap(obj: Objects): MutableMap<String, Any?> {
+
+        val map = mutableMapOf<String, Any?>()
+        val properties = Objects::class.members.filterIsInstance<KProperty1<Objects, String>>()
+        for (property in properties) {
+            map[property.name] = property.get(obj)?:""
+        }
+        return map
+    }
+
 
     fun toRequestBody(key:String): RequestBody {
         return key.toRequestBody("multipart/form-data".toMediaTypeOrNull())

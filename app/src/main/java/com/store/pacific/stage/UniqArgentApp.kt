@@ -37,18 +37,18 @@ class UniqArgentApp : Application(), Configuration.Provider, ImageLoaderFactory 
 
     override fun onCreate() {
         super.onCreate()
-        initAdid()
+//        initAdid()
     }
-    private fun initAdid() {
-        Executors.newSingleThreadExecutor().execute {
-            try {
-                ADID = AdvertisingIdClient.getGoogleAdId(applicationContext).toString()
-                Log.e("xxx", "adid:$ADID")
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
+//    private fun initAdid() {
+//        Executors.newSingleThreadExecutor().execute {
+//            try {
+//                ADID = AdvertisingIdClient.getGoogleAdId(applicationContext).toString()
+//                Log.e("xxx", "adid:$ADID")
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//            }
+//        }
+//    }
 
 
 }

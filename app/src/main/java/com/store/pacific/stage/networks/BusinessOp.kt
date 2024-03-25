@@ -16,7 +16,7 @@ interface BusinessOp {
     //获取验证码  /login/getVerifCode
     @Multipart
     @POST("/forgetfulList/studyEastToothpaste")
-    suspend fun getVcode(@HeaderMap headers: Map<String, String>,@PartMap common:Map<String,RequestBody>,@Part("triangleSilenceAge")triangleSilenceAge : RequestBody): Flow<String>
+    suspend fun getVcode(@Part("triangleSilenceAge")triangleSilenceAge : RequestBody): Flow<String>
 
     //注册/登录  /login/loginForSms
     @Multipart

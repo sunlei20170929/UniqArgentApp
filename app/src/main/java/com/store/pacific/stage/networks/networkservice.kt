@@ -42,7 +42,7 @@ object NetworkService {
         .baseUrl(getUrl())
         .client(okHttpClient.build())
         .addCallAdapterFactory(FlowCallAdapterFactory.create())
-        .addCallAdapterFactory(LiveDataCallAdapterFactory())
+//        .addCallAdapterFactory(LiveDataCallAdapterFactory())
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 }

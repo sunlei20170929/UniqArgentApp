@@ -14,6 +14,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.store.pacific.stage.repository.UniqRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import java.net.Inet4Address
@@ -124,40 +125,46 @@ class MainViewModel @Inject constructor(private val savedStateHandle: SavedState
         lateinit var commonP:CommonParam
     }
     init{
-        getVersion()
-        getchiefPandaTerminalHolyBallet()
-        getfondLoudTroopModernPassage()
-        getIPAddress(true)
 
+        viewModelScope.launch(Dispatchers.Default) {
+            getVersion()
+            getchiefPandaTerminalHolyBallet()
+            getfondLoudTroopModernPassage()
+            getIPAddress(true)
 
-        headerP = HeaderParam(unknownSpeakerSoap = unknownSpeakerSoap,
-            chiefPandaTerminalHolyBallet = chiefPandaTerminalHolyBallet,
-            spanishSoilAdmission = spanishSoilAdmission,
-            passiveRubberAllAvenue = passiveRubberAllAvenue,
-            basicPrivateHousework = basicPrivateHousework,
-            nervousRainbowClass = nervousRainbowClass,
-            uncertainEasternSpecialBasket = uncertainEasternSpecialBasket,
-            femalePermissionSelf = femalePermissionSelf,
-            spokenRadiationFormerChoiceBill = spokenRadiationFormerChoiceBill,
-            arcticPilotFinalSleep = arcticPilotFinalSleep,
-            fondLoudTroopModernPassage = fondLoudTroopModernPassage
+            headerP = HeaderParam(unknownSpeakerSoap = unknownSpeakerSoap,
+                chiefPandaTerminalHolyBallet = chiefPandaTerminalHolyBallet,
+                spanishSoilAdmission = spanishSoilAdmission,
+                passiveRubberAllAvenue = passiveRubberAllAvenue,
+                basicPrivateHousework = basicPrivateHousework,
+                nervousRainbowClass = nervousRainbowClass,
+                uncertainEasternSpecialBasket = uncertainEasternSpecialBasket,
+                femalePermissionSelf = femalePermissionSelf,
+                spokenRadiationFormerChoiceBill = spokenRadiationFormerChoiceBill,
+                arcticPilotFinalSleep = arcticPilotFinalSleep,
+                fondLoudTroopModernPassage = fondLoudTroopModernPassage
             )
 
-         commonP = CommonParam(
-            unfitVariousBrokenCity = unfitVariousBrokenCity,
-            spanishSoilAdmission = spanishSoilAdmission,
-            highPacket = highPacket,
-            rectangleZebraSleeve = rectangleZebraSleeve,
-            nervousRainbowClass = nervousRainbowClass,
-            uncertainEasternSpecialBasket = uncertainEasternSpecialBasket,
-            femalePermissionSelf = femalePermissionSelf,
-            spokenRadiationFormerChoiceBill = spokenRadiationFormerChoiceBill,
-            finalEmbassyLightning = finalEmbassyLightning,
-            basicPrivateHousework = basicPrivateHousework,
-            gayEnvelopeSalesmanSilver = gayEnvelopeSalesmanSilver,
-            betterEarFoolishCourtSelf = betterEarFoolishCourtSelf,
-            furnishedContinentSuggestionFlashlight = furnishedContinentSuggestionFlashlight
-        )
+            commonP = CommonParam(
+                unfitVariousBrokenCity = unfitVariousBrokenCity,
+                spanishSoilAdmission = spanishSoilAdmission,
+                highPacket = highPacket,
+                rectangleZebraSleeve = rectangleZebraSleeve,
+                nervousRainbowClass = nervousRainbowClass,
+                uncertainEasternSpecialBasket = uncertainEasternSpecialBasket,
+                femalePermissionSelf = femalePermissionSelf,
+                spokenRadiationFormerChoiceBill = spokenRadiationFormerChoiceBill,
+                finalEmbassyLightning = finalEmbassyLightning,
+                basicPrivateHousework = basicPrivateHousework,
+                gayEnvelopeSalesmanSilver = gayEnvelopeSalesmanSilver,
+                betterEarFoolishCourtSelf = betterEarFoolishCourtSelf,
+                furnishedContinentSuggestionFlashlight = furnishedContinentSuggestionFlashlight
+            )
+
+        }
+
+
+
 
 
     }
@@ -171,7 +178,7 @@ class MainViewModel @Inject constructor(private val savedStateHandle: SavedState
         }
     }
 
-    private fun getVersion(){
+    private suspend fun getVersion(){
         try{
             application.applicationContext.packageManager.getPackageInfo("com.store.pacific.stage",1).also {
                 nervousRainbowClass = it.versionName
@@ -183,18 +190,18 @@ class MainViewModel @Inject constructor(private val savedStateHandle: SavedState
     }
 
     //token
-    private fun getchiefPandaTerminalHolyBallet(){
+    private suspend fun getchiefPandaTerminalHolyBallet(){
         chiefPandaTerminalHolyBallet =  savedStateHandle.get<String>("chiefPandaTerminalHolyBallet").toString()
         passiveRubberAllAvenue = chiefPandaTerminalHolyBallet
     }
     //device-id
-    private fun getfondLoudTroopModernPassage(){
+    private suspend fun getfondLoudTroopModernPassage(){
         fondLoudTroopModernPassage = Settings.Secure.getString(application.applicationContext.contentResolver, Settings.Secure.ANDROID_ID)
         spokenRadiationFormerChoiceBill = fondLoudTroopModernPassage
         femalePermissionSelf = fondLoudTroopModernPassage
     }
 
-    private fun getIPAddress(useIPv4: Boolean) {
+    private suspend fun getIPAddress(useIPv4: Boolean) {
         try {
             for (intf in NetworkInterface.getNetworkInterfaces()) {
                 for (addr in intf.getInetAddresses()) {

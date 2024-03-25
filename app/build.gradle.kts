@@ -110,7 +110,11 @@ dependencies {
     implementation("androidx.compose.runtime:runtime-livedata:1.6.1")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
     //谷歌广告id
-    implementation ("com.google.android.gms:play-services-ads:19.7.0")
+//    implementation ("com.google.android.gms:play-services-ads:19.7.0")
+    implementation(kotlin("reflect"))
+
+    //data class to Map
+    implementation ("org.jetbrains.kotlin:kotlin-reflect")
 
 
 }
