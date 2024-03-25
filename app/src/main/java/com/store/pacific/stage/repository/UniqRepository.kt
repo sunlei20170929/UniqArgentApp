@@ -10,6 +10,7 @@ import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import java.lang.reflect.Field
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -19,9 +20,14 @@ class UniqRepository @Inject constructor(){
 
     private val api: BusinessOp = NetworkService.retrofit.create(BusinessOp::class.java)
 
-    suspend fun getSmscode(header: HeaderParam, common: CommonParam, num:String): Flow<String> = withContext(Dispatchers.IO) {
+
+
+    suspend fun getSmscode(header: HeaderParam, common: CommonParam, num:String): Flow<String>? = withContext(Dispatchers.IO) {
         val para = toRequestBody(num)
-        api.getVcode(para)
+        val headerMap = beanToMap(header)
+        val commonMap = beanToMap(common)
+        val commonParam = generateRequestBody(commonMap!!)
+        headerMap?.let { api.getVcode(it,commonParam,para) }
     }
 
     fun  generateRequestBody(requestDataMap:Map<String, String>):Map<String, RequestBody> {
@@ -33,6 +39,18 @@ class UniqRepository @Inject constructor(){
             requestBodyMap[key] = requestBody
         }
         return requestBodyMap;
+    }
+
+
+    @Throws(IllegalAccessException::class)
+    fun beanToMap(`object`: Any): Map<String, String>? {
+        val map: MutableMap<String, String> = HashMap()
+        val fields: Array<Field> = `object`.javaClass.declaredFields
+        for (field in fields) {
+            field.isAccessible = true
+            map[field.name] = field.get(`object`).toString()
+        }
+        return map
     }
 
     fun toRequestBody(key:String): RequestBody {

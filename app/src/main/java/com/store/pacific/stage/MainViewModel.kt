@@ -74,15 +74,7 @@ class MainViewModel @Inject constructor(private val savedStateHandle: SavedState
     private var _sms:MutableState<String> = mutableStateOf("")
     val sms = _sms
 
-    fun getSms(num:String){
-        viewModelScope.launch {
-            repo.getSmscode(num).catch {
-                _sms.value = it.message.toString()
-            }.collect{
-                _sms.value = it
-            }
-        }
-    }
+
 
 
 
@@ -128,6 +120,8 @@ class MainViewModel @Inject constructor(private val savedStateHandle: SavedState
         var betterEarFoolishCourtSelf = "" //googleMobileNo
 
         var furnishedContinentSuggestionFlashlight = ""//googleUserAgent
+        lateinit var headerP:HeaderParam
+        lateinit var commonP:CommonParam
     }
     init{
         getVersion()
@@ -135,7 +129,8 @@ class MainViewModel @Inject constructor(private val savedStateHandle: SavedState
         getfondLoudTroopModernPassage()
         getIPAddress(true)
 
-        var headerP = HeaderParam(unknownSpeakerSoap = unknownSpeakerSoap,
+
+        headerP = HeaderParam(unknownSpeakerSoap = unknownSpeakerSoap,
             chiefPandaTerminalHolyBallet = chiefPandaTerminalHolyBallet,
             spanishSoilAdmission = spanishSoilAdmission,
             passiveRubberAllAvenue = passiveRubberAllAvenue,
@@ -148,7 +143,7 @@ class MainViewModel @Inject constructor(private val savedStateHandle: SavedState
             fondLoudTroopModernPassage = fondLoudTroopModernPassage
             )
 
-        var commonP = CommonParam(
+         commonP = CommonParam(
             unfitVariousBrokenCity = unfitVariousBrokenCity,
             spanishSoilAdmission = spanishSoilAdmission,
             highPacket = highPacket,
@@ -163,6 +158,17 @@ class MainViewModel @Inject constructor(private val savedStateHandle: SavedState
             betterEarFoolishCourtSelf = betterEarFoolishCourtSelf,
             furnishedContinentSuggestionFlashlight = furnishedContinentSuggestionFlashlight
         )
+
+
+    }
+    fun getSms(num:String){
+        viewModelScope.launch {
+            repo.getSmscode(headerP, commonP ,num)?.catch {
+                _sms.value = it.message.toString()
+            }?.collect{
+                _sms.value = it
+            }
+        }
     }
 
     private fun getVersion(){
