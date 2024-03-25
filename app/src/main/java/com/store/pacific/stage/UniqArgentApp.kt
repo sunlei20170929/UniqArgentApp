@@ -13,6 +13,8 @@ import android.os.RemoteException
 import androidx.work.Configuration
 import coil.ImageLoader
 import coil.ImageLoaderFactory
+import com.store.pacific.stage.networks.BusinessOp
+import com.store.pacific.stage.networks.NetworkService
 import com.store.pacific.stage.repository.UniqRepository
 //import java.util.concurrent.LinkedBlockingQueue
 
@@ -32,7 +34,9 @@ class UniqArgentApp : Application(), Configuration.Provider, ImageLoaderFactory 
             .setMinimumLoggingLevel( android.util.Log.DEBUG )
             .build()
 
-    val uniqRepository = UniqRepository()
+    val uniqRepository = UniqRepository(
+        NetworkService.retrofit.create(BusinessOp::class.java)
+    )
 
     override fun onCreate() {
         super.onCreate()

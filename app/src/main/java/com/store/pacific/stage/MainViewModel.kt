@@ -80,16 +80,6 @@ class MainViewModel(private val repo: UniqRepository,
     private var _sms:MutableState<String> = mutableStateOf("")
     val sms = _sms
 
-
-
-
-
-
-    /**
-     * FOR HEADER
-     *
-     * */
-
     companion object{
         /**
          * header
@@ -112,19 +102,11 @@ class MainViewModel(private val repo: UniqRepository,
          * */
 
         var unfitVariousBrokenCity = "134"//appssid
-//        var spanishSoilAdmission = ""//userId
         var highPacket = "0,0"//lbs
         var rectangleZebraSleeve = "es" //language
-//        var nervousRainbowClass//versionName
-//        var uncertainEasternSpecialBasket = ""//versionCode
-//        var uncertainEasternSpecialBasket = ""//versionCode
-//        var femalePermissionSelf = ""//deviceId
-//        var spokenRadiationFormerChoiceBill = ""//imei
         var finalEmbassyLightning = "0.0.0.0"  //ip
-//        var basicPrivateHousework = "" //channel
         var gayEnvelopeSalesmanSilver = Build.MODEL//systemMode
         var betterEarFoolishCourtSelf = "" //googleMobileNo
-
         var furnishedContinentSuggestionFlashlight = ""//googleUserAgent
         lateinit var headerP:HeaderParam
         lateinit var commonP:CommonParam
@@ -144,7 +126,6 @@ class MainViewModel(private val repo: UniqRepository,
                 val application = checkNotNull(extras[APPLICATION_KEY])
                 // Create a SavedStateHandle for this ViewModel from extras
                 val savedStateHandle = extras.createSavedStateHandle()
-
                 return MainViewModel((application as UniqArgentApp).uniqRepository, savedStateHandle,application) as T
             }
         }

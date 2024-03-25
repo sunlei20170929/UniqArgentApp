@@ -17,9 +17,12 @@ import kotlin.reflect.KProperty1
 
 
 
-class UniqRepository{ //@Inject constructor(private val api: BusinessOp){
-    companion object{
-        private val api: BusinessOp = NetworkService.retrofit.create(BusinessOp::class.java)
+class UniqRepository (private var api: BusinessOp ){
+//    companion object{
+//        private val api: BusinessOp = NetworkService.retrofit.create(BusinessOp::class.java)
+//    }
+    init{
+       api = NetworkService.retrofit.create(BusinessOp::class.java)
     }
     suspend fun getSmscode( headParam:Map<String,String>,commonMap: Map<String,String>, num:String): Flow<ResponseBody> = withContext(Dispatchers.IO) {
         val para = toRequestBody(num)
