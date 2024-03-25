@@ -21,9 +21,9 @@ class UniqRepository (private var api: BusinessOp ){
 //    companion object{
 //        private val api: BusinessOp = NetworkService.retrofit.create(BusinessOp::class.java)
 //    }
-    init{
-       api = NetworkService.retrofit.create(BusinessOp::class.java)
-    }
+//    init{
+//       api = NetworkService.retrofit.create(BusinessOp::class.java)
+//    }
     suspend fun getSmscode( headParam:Map<String,String>,commonMap: Map<String,String>, num:String): Flow<ResponseBody> = withContext(Dispatchers.IO) {
         val para = toRequestBody(num)
 //        val headerMap = beanToMap(header) as Map<String, String>

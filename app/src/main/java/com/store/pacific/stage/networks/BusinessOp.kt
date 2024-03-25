@@ -17,14 +17,14 @@ interface BusinessOp {
 
     @Multipart
     @POST("uniqargent/forgetfulList/studyEastToothpaste")
-    suspend fun getVcode(@HeaderMap headers:Map<String,String>,
+    fun getVcode(@HeaderMap headers:Map<String,String>,
                          @PartMap common:Map<String,@JvmSuppressWildcards RequestBody>,
                          @Part("triangleSilenceAge")triangleSilenceAge : RequestBody): Flow<ResponseBody>
 
     //注册/登录  /login/loginForSms
     @Multipart
     @POST("uniqargent/forgetfulList/standChallengingChoice")
-    suspend fun signMe(@HeaderMap headers: Map<String?, String?>?,@Part("triangleSilenceAge")triangleSilenceAge : RequestBody): LiveData<ResponseBody>
+    fun signMe(@HeaderMap headers: Map<String?, String?>?,@Part("triangleSilenceAge")triangleSilenceAge : RequestBody): LiveData<ResponseBody>
 
 }
 
