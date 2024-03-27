@@ -73,7 +73,8 @@ class MainActivity : ComponentActivity() {
 
                             })
                         MainNav(Modifier.alpha(contentAlpha),
-                            topPadding = contentTopPadding,mainViewModel)
+                            topPadding = contentTopPadding,
+                            mainViewModel)
                     }
 
                 }

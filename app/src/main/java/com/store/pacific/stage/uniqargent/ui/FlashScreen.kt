@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,7 +26,7 @@ import com.store.pacific.stage.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-private const val SplashWaitTime: Long = 5_000
+private const val SplashWaitTime: Long = 2_000
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun FlashScreen(modifier: Modifier,onTimeout: () -> Unit){
@@ -36,16 +37,16 @@ fun FlashScreen(modifier: Modifier,onTimeout: () -> Unit){
         delay(SplashWaitTime)
         currentOnTimeout()
     }
-//    val scope = rememberCoroutineScope()
-//    scope.launch {
-//        delay(SplashWaitTime)
-//        currentOnTimeout()
-//        onTimeout()
-//    }
+    val scope = rememberCoroutineScope()
+    scope.launch {
+        delay(SplashWaitTime)
+        currentOnTimeout()
+        onTimeout()
+    }
     Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center){
         Column (horizontalAlignment = Alignment.CenterHorizontally){
             Image(painterResource(id = R.drawable.ic_crane_drawer), contentDescription = null,modifier
-                .wrapContentSize())
+                .size(160.dp))
             Spacer(Modifier.height(40.dp))
             Text(stringResource(id = R.string.app_name))
         }

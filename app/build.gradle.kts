@@ -16,7 +16,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        resourceConfigurations += arrayOf("en", "en-rGB", "fr", "ja", "b+zh+Hans+MO", "b+zh+Hant+MO")
+        resourceConfigurations += arrayOf("en", "en-rGB", "fr")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

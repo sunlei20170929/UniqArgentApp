@@ -2,13 +2,16 @@ package com.store.pacific.stage
 
 import android.app.Application
 import android.app.LocaleManager
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.LocaleList
 import android.provider.Settings
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -48,20 +51,27 @@ class MainViewModel(private val repo: UniqRepository,
     var hasRead:Boolean = savedStateHandle.get<Boolean>(REMINDER) == true
 
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    fun setLanguage(lan:Int){
-        viewModelScope.launch {
+
+    fun setLanguage(context: Context, lan:Int){
+        viewModelScope.launch(Dispatchers.Default) {
             languageSetting = lan
             savedStateHandle[LANGUAGE] = languageSetting
+
+// Call this on the main thread as it may require Activity.restart()
+
             when(lan){
                 1->{
-                    application.applicationContext.getSystemService(LocaleManager::class.java
-                    ).applicationLocales = LocaleList(Locale.forLanguageTag("en-US"))
+//                    context.getSystemService(LocaleManager::class.java
+//                    ).applicationLocales = LocaleList(Locale.forLanguageTag("en-GB"))
+                    val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags("en-GB")
+                    AppCompatDelegate.setApplicationLocales(appLocale)
                 }
 
                 2->{
-                    application.applicationContext.getSystemService(LocaleManager::class.java
-                    ).applicationLocales = LocaleList(Locale.forLanguageTag("fr"))
+//                    context.getSystemService(LocaleManager::class.java
+//                    ).applicationLocales = LocaleList(Locale.forLanguageTag("fr"))
+                    val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags("fr")
+                    AppCompatDelegate.setApplicationLocales(appLocale)
                 }
             }
         }
@@ -86,7 +96,7 @@ class MainViewModel(private val repo: UniqRepository,
          * */
         var unknownSpeakerSoap = "134"//client-id
         var chiefPandaTerminalHolyBallet = "" //token
-        var spanishSoilAdmission = "" //userId
+        var spanishSoilAdmission = "134" //userId
         var passiveRubberAllAvenue = ""//currentUserId
         var basicPrivateHousework = "googleplay"//channel
         var uncertainEasternSpecialBasket = "0"//versionCode = 0
