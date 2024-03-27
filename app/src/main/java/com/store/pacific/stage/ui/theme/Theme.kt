@@ -9,7 +9,10 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
@@ -37,6 +40,26 @@ private val LightColorScheme = lightColorScheme(
     */
 )
 
+/**
+ *
+ * 自定义颜色组
+ * */
+data class ExtendedColors(
+    val tertiary: Color,
+    val onTertiary: Color
+)
+
+/**
+ *
+ * 声明为compositionLoacal
+ * */
+val LocalExtendedColors = staticCompositionLocalOf {
+    ExtendedColors(
+        tertiary = Color.Unspecified,
+        onTertiary = Color.Unspecified
+    )
+}
+
 @Composable
 fun UniqArgentTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -53,6 +76,9 @@ fun UniqArgentTheme(
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
+
+
+
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
@@ -62,9 +88,24 @@ fun UniqArgentTheme(
         }
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
+    /**
+     *
+     * 为自定义指定颜色值
+     * */
+    val extendedColors = ExtendedColors(
+        tertiary = Color(0xFFA8EFF0),
+        onTertiary = Color(0xFF002021)
     )
+    /**
+     *
+     * 将自定义颜色值作为切面参数
+     * */
+    CompositionLocalProvider(LocalExtendedColors provides extendedColors){
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            content = content
+        )
+    }
+
 }
