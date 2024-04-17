@@ -1,5 +1,6 @@
 package com.store.pacific.stage.uniqargent.ui.mine
 
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -31,14 +32,33 @@ class MineViewModel  constructor(
     var state by mutableStateOf(LoginState())
         private set
 
+    /**
+     *
+     * 三种方式：
+     * channel
+     * sharedflow
+     * state
+     *
+     * */
     fun login(){
         viewModelScope.launch{
             state = state.copy(isLoading = true)
 
             delay(3_000)
-            navigationChannel.send(NavigationEvent.NavigateToProfile)
+//            //channel
+//            navigationChannel.send(NavigationEvent.NavigateToProfile)
 
-            state = state.copy(isLoading = false,)
+            //flow
+//            _navigationEvents.emit(NavigationEvent.NavigateToProfile)
+
+//            LaunchedEffect(state.isLoggedIn){
+//                if(state.isLoggedIn){
+//                    //loggedin
+//                }
+//            }
+
+
+            state = state.copy(isLoading = false,isLoggedIn = true)
         }
     }
 
