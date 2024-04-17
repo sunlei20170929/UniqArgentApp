@@ -25,7 +25,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.layout.AlignmentLine
+import androidx.compose.ui.layout.FirstBaseline
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.store.pacific.stage.ui.theme.UniqArgentTheme
@@ -82,7 +86,24 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+fun Modifier.firstBaselineToTop(
+    firstBaselineToTop: Dp
+) = layout { measurable, constraints ->
+    // Measure the composable
+    val placeable = measurable.measure(constraints)
 
+    // Check the composable has a first baseline
+    check(placeable[FirstBaseline] != AlignmentLine.Unspecified)
+    val firstBaseline = placeable[FirstBaseline]
+
+    // Height of the composable with padding - first baseline
+    val placeableY = firstBaselineToTop.roundToPx() - firstBaseline
+    val height = placeable.height + placeableY
+    layout(placeable.width, height) {
+        // Where the composable gets placed
+        placeable.placeRelative(0, placeableY)
+    }
+}
 
 @Preview(showBackground = true)
 @Composable

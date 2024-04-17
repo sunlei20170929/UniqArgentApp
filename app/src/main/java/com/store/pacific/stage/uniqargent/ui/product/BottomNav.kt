@@ -35,6 +35,7 @@ import com.store.pacific.stage.MainViewModel
 import com.store.pacific.stage.R
 import com.store.pacific.stage.uniqargent.ui.LanguageDialog
 import com.store.pacific.stage.uniqargent.ui.WebviewPage
+import com.store.pacific.stage.uniqargent.ui.mine.MineScreen
 import kotlinx.coroutines.launch
 
 
@@ -115,7 +116,7 @@ fun MainNav(modifier:Modifier, topPadding: Dp = 0.dp, mainViewModel: MainViewMod
 //                RecPage()
                 }
                 composable(BottomItem.Mine.route) {
-                    // MinePage()
+                    MineScreen()
                 }
             }
         }
